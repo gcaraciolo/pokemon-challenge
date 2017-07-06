@@ -106,3 +106,23 @@ test('pokemons.list after bought ', () => {
 	})	
 })
 
+test('pokemons.buy not enough ', () => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			const pokemonToBuy = {
+				name: 'picachu',
+				quantity: 5
+			}
+
+			request(app)
+			.post('/buy-pokemons')
+			.type('Application/json')
+			.send(pokemonToBuy)
+			.then((response) => {
+				expect(response.body).toHaveProperty('error')
+				expect(response.body.error).toEqual(expect.stringContaining('Not enought picachu in stock: '))
+				resolve()
+			})
+		}, 1000)
+	})
+})
