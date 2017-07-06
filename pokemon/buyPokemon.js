@@ -18,14 +18,14 @@ function buy(pokemon, card, quantity) {
 
 	return pagarmeClient.getPagarmeClient()
 		.then(client => buyPokemon(client))
-  		.then(transaction => {
-  			if (transaction.status !== 'paid') {
+		.then(transaction => {
+			if (transaction.status !== 'paid') {
 				throw new Error('Error when bought pokemon: ' + pokemon.name 
 					+ '. Transaction status: ' + transaction.status)
 			}
 			return transaction
-  		})
-  		.then(transaction => {
+		})
+		.then(transaction => {
 			pokemon.stock = pokemon.stock - quantity;
 			return pokemon.save().then(() => transaction)
 		})

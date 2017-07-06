@@ -1,6 +1,8 @@
 const models = require('../database/models')
 const buyPokemon = require('./buyPokemon')
 const app = require('express').Router()
+const Joi = require('joi')
+const paramValidation = require('express-validation')
 
 const Pokemon = models.pokemon
 
@@ -13,16 +15,32 @@ app.get('/get-pokemons', function (req, res, next) {
 		.catch(next)
 });
 
-app.put('/create-pokemons', function (req, res, next) {
-	Pokemon
-		.create(req.body)
-		.then(pokemon => {
-			res.send(pokemon)
-		})
-		.catch(next)
-});
+app.put('/create-pokemons',
+	paramValidation({
+		body: {
+			name: Joi.string().alphanum().min(1).max(255).required(),
+			price: Joi.number().required(),
+			stock: Joi.number().integer()
+		}
+	}), 
+	function (req, res, next) {
+		Pokemon
+			.create(req.body)
+			.then(pokemon => {
+				res.send(pokemon)
+			})
+			.catch(next)
+	}
+);
 
-app.post('/buy-pokemons', function (req, res, next) {
+app.post('/buy-pokemons',
+	paramValidation({
+		body: {
+			name: Joi.string().alphanum().min(1).max(255).required(),
+			quantity: Joi.number().integer().required()
+		}
+	}), 
+	function (req, res, next) {
 	// mock card
 	const card = {
 		card_number: '4024007138010896',
@@ -53,7 +71,7 @@ app.post('/buy-pokemons', function (req, res, next) {
 			return buyPokemon.buy(pokemon, card, req.body.quantity)
 				.then(body => {
 					res.send(body)
-				}).catch(function (err){
+				}).catch(err => {
 					console.log(err)
 					throw new Error('Something goes wrong')
 				})

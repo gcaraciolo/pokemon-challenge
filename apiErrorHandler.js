@@ -1,6 +1,12 @@
+const paramValidation = require('express-validation');
+
 const apiErrorHandler = (err, req, res, next) => {
-	console.error(err.stack);
-	res.status(500).send('Something broke!');
+	if (err instanceof paramValidation.ValidationError) {
+		res.status(err.status).send(err);
+	} else {
+		console.log(err)
+		res.status(500).send('Something broke!');	
+	}
 }
 
 module.exports = apiErrorHandler;

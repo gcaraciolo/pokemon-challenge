@@ -39,6 +39,54 @@ test('pokemons.create', () => {
 		})
 })
 
+test('pokemons.create with invalid params', () => {
+	const picachu = {
+		price: 'adsas',
+		stock: '!#@!$'
+	}
+
+	return request(app)
+		.put('/create-pokemons')
+		.type('Application/json')
+		.send(picachu)
+		.expect(400)
+		.then(response => {
+			expect(response.body).toHaveProperty('errors')
+			expect(response.body).toEqual(expect.objectContaining({
+				status: 400,
+				statusText: 'Bad Request',
+				errors: [{
+					field: 'name',
+					location: 'body',
+					messages: [
+						'\"name\" is required'
+					],
+					types: [
+						'any.required'
+					]
+				}, {
+					field: 'price',
+					location: 'body',
+					messages: [
+						'\"price\" must be a number'
+					],
+					types: [
+						'number.base'
+					]
+				}, {
+					field: 'stock',
+					location: 'body',
+					messages: [
+						'\"stock\" must be a number'
+					],
+					types: [
+						'number.base'
+					]
+				}]
+			}))
+		})
+})
+
 test('pokemons.list after create ', () => {
 	const pokemons = [{
 		id: 1,
@@ -89,6 +137,44 @@ test('pokemons.buy not found', () => {
 		.then((response) => {
 			expect(response.body).toHaveProperty('error')
 			expect(response.body.error).toEqual(expect.stringContaining('not found'))
+		})
+})
+
+test('pokemons.buy with invalid params', () => {
+	const pokemonToBuy = {
+		quantity: 2.15
+	}
+
+	return request(app)
+		.post('/buy-pokemons')
+		.type('Application/json')
+		.send(pokemonToBuy)
+		.expect(400)
+		.then((response) => {
+			expect(response.body).toHaveProperty('errors')
+			expect(response.body).toEqual(expect.objectContaining({
+				status: 400,
+				statusText: 'Bad Request',
+				errors: [{
+					field: 'name',
+					location: 'body',
+					messages: [
+						'\"name\" is required'
+					],
+					types: [
+						'any.required'
+					]
+				}, {
+					field: 'quantity',
+					location: 'body',
+					messages: [
+						'\"quantity\" must be an integer'
+					],
+					types: [
+						'number.integer'
+					]
+				}]
+			}))
 		})
 })
 
