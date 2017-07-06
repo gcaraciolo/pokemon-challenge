@@ -1,18 +1,11 @@
 const pagarmeClient = require('../pagarmeClient')
 
-function buy(pokemon, quantity) {
-	const card = {
-		card_number: '4024007138010896',
-		card_expiration_date: '1050',
-		card_holder_name: 'Ash Ketchum',
-		card_cvv: '123'
-	}
-
+function buy(pokemon, card, quantity) {
 	function buyPokemon(client) {
 		return client.security.encrypt(card)
 			.then(card_hash => {
 				return client.transactions.create({
-					amount: pokemon.price * quantity * 100, // wrong value? *100
+					amount: pokemon.price * quantity * 100, //multiplied by 100 due to pagarme interface
 					card_hash: card_hash,
 					metadata: {
 						product: 'pokemon',
@@ -27,8 +20,8 @@ function buy(pokemon, quantity) {
 		.then(client => buyPokemon(client))
   		.then(transaction => {
   			if (transaction.status !== 'paid') {
-  				console.log(transaction)
-				throw new Error('Error when bought pokemon: ' + pokemon.name)
+				throw new Error('Error when bought pokemon: ' + pokemon.name 
+					+ '. Transaction status: ' + transaction.status)
 			}
 			return transaction
   		})

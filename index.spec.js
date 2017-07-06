@@ -71,6 +71,24 @@ test('pokemons.buy', () => {
 		.expect(200)
 		.then((response) => {
 			expect(response.body).toHaveProperty('status', 'paid')
+			expect(response.body).toHaveProperty('amount', 3112)
+		})
+})
+
+test('pokemons.buy not found', () => {
+	const pokemonToBuy = {
+		name: 'bulbasaur',
+		quantity: 3
+	}
+
+	return request(app)
+		.post('/buy-pokemons')
+		.type('Application/json')
+		.send(pokemonToBuy)
+		.expect(404)
+		.then((response) => {
+			expect(response.body).toHaveProperty('error')
+			expect(response.body.error).toEqual(expect.stringContaining('not found'))
 		})
 })
 
