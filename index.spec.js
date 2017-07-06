@@ -82,3 +82,27 @@ test('pokemons.buy', () => {
 		}, 1000)
 	})
 })
+
+test('pokemons.list after bought ', () => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			const pokemons = [{
+				id: 1,
+				name: 'picachu',
+				price: 15.56,
+				stock: 1,
+				createdAt: expect.stringMatching(iso8601Regex),
+				updatedAt: expect.stringMatching(iso8601Regex)
+			}]
+
+			request(app)
+			.get('/get-pokemons')
+			.then((response) => {
+				expect(response.body.length).toBe(1)
+				expect(response.body).toEqual(expect.arrayContaining(pokemons))
+				resolve()
+			});
+		}, 1000)
+	})	
+})
+
