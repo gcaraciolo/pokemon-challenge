@@ -96,4 +96,4 @@ app.post('/buy-pokemons', function (req, res) {
 
 });
 
-
+module.exports = app;

@@ -4,15 +4,23 @@
   "description": "Example of a really bad code",
   "main": "idnex.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.2",
-    "express": "*",
-    "request": "^2.73.0",
-    "request-promise": "^4.0.0",
-    "sqlite3": "^3.1.4"
+    "body-parser": "1.17.2",
+    "express": "4.15.3",
+    "request": "2.81.0",
+    "request-promise": "4.2.1",
+    "sequelize": "4.2.1",
+    "sqlite3": "3.1.8",
+    "supertest": "^3.0.0"
+  },
+  "devDependencies": {
+    "jest": "20.0.4"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
