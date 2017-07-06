@@ -10,12 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "1.17.2",
+    "dotenv": "4.0.0",
     "express": "4.15.3",
+    "pagarme": "3.1.0",
+    "pg": "6.4.0",
     "request": "2.81.0",
     "request-promise": "4.2.1",
     "sequelize": "4.2.1",
     "sqlite3": "3.1.8",
-    "supertest": "^3.0.0"
+    "supertest": "3.0.0"
   },
   "devDependencies": {
     "jest": "20.0.4"
