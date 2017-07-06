@@ -1,6 +1,6 @@
 const pagarmeClient = require('../pagarmeClient')
 
-function buyPokemon(pokemon, quantity) {
+function buy(pokemon, quantity) {
 	const card = {
 		card_number: '4024007138010896',
 		card_expiration_date: '1050',
@@ -8,7 +8,7 @@ function buyPokemon(pokemon, quantity) {
 		card_cvv: '123'
 	}
 
-	function buy(client) {
+	function buyPokemon(client) {
 		return client.security.encrypt(card)
 			.then(card_hash => {
 				return client.transactions.create({
@@ -24,7 +24,7 @@ function buyPokemon(pokemon, quantity) {
 	}
 
 	return pagarmeClient.getPagarmeClient()
-		.then(client => buy(client))
+		.then(client => buyPokemon(client))
   		.then(transaction => {
   			if (transaction.status !== 'paid') {
   				console.log(transaction)
@@ -32,6 +32,12 @@ function buyPokemon(pokemon, quantity) {
 			}
 			return transaction
   		})
+  		.then(transaction => {
+			pokemon.stock = pokemon.stock - quantity;
+			return pokemon.save().then(() => transaction)
+		})
 }
 
-module.exports = buyPokemon
+module.exports = {
+	buy: buy
+}
