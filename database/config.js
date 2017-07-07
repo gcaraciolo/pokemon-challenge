@@ -7,6 +7,7 @@ module.exports = {
 	options: {
 		host: constants.DB_HOST,
 		dialect: constants.DB_DIALECT,
-		port: constants.DB_PORT
+		port: constants.DB_PORT,
+		logging: false
 	}
 };

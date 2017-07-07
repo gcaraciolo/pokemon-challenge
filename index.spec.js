@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('./index');
 
 const iso8601Regex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/
+const idRegex = /\d+/
 
 beforeAll(() => {
 	return new Promise(resolve => {
@@ -89,7 +90,7 @@ test('pokemons.create with invalid params', () => {
 
 test('pokemons.list after create ', () => {
 	const pokemons = [{
-		id: 1,
+		id: expect.stringMatching(idRegex),
 		name: 'picachu',
 		price: 15.56,
 		stock: 3,
@@ -180,7 +181,7 @@ test('pokemons.buy with invalid params', () => {
 
 test('pokemons.list after bought ', () => {
 	const pokemons = [{
-		id: 1,
+		id: expect.stringMatching(idRegex),
 		name: 'picachu',
 		price: 15.56,
 		stock: 1,

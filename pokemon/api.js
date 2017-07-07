@@ -1,8 +1,11 @@
-const models = require('../database/models')
-const buyPokemon = require('./buyPokemon')
 const app = require('express').Router()
 const Joi = require('joi')
 const paramValidation = require('express-validation')
+const Promise = require('bluebird')
+
+const models = require('../database/models')
+const buyPokemon = require('./buyPokemon')
+const InventoryError = require('./inventoryError')
 
 const Pokemon = models.pokemon
 
@@ -62,17 +65,16 @@ app.post('/buy-pokemons',
 				})
 			}
 
-			if (pokemon.stock < req.body.quantity) {
-				return res.status(400).send({
-					error: 'Not enought ' + pokemon.name + ' in stock: ' + pokemon.stock
-				})
-			}
-
 			return buyPokemon
 				.buy(pokemon, req.body.quantity, card)
-				.then(transaction => {
+				.then(transaction =>
 					res.send(transaction)
-				})
+				)
+				.catch(InventoryError, error =>
+					res.status(400).send({
+						error: error.message
+					})
+				)
 		})
 		.catch(next)
 });
