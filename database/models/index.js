@@ -11,11 +11,15 @@ let sequelize = new Sequelize(
 	config.options
 );
 
-fs.readdirSync(__dirname).filter(f => !f.includes('index')).map(modelFile => {
-	let model = sequelize.import(__dirname + '/' + modelFile);
-	models[model.name] = model;
-	return model;
-})
+fs
+	.readdirSync(__dirname)
+	.filter(f => !f.includes('index'))
+	.map(modelFile => {
+		let model = sequelize.import(__dirname + '/' + modelFile);
+		models[model.name] = model;
+		return model;
+	})
+	.forEach(model => model.associate(models));
 
 module.exports = models;
 module.exports.sequelize = sequelize;

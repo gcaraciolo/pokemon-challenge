@@ -2,7 +2,6 @@ const Promise = require('bluebird')
 
 const pagarmeClient = require('../pagarmeClient')
 const PaymentError = require('./paymentError')
-const InventoryError = require('./inventoryError')
 
 const Pokemon = require('../database/models').pokemon
 const sequelize = require('../database/models').sequelize
@@ -36,36 +35,8 @@ const processPurchase = (client, pokemon, quantity, card) =>
 		.encrypt(card)
 		.then(cardHash => buyPokemon(client, pokemon, quantity, cardHash))
 
-const checkInventory = (pokemon, quantity) => {
-	if (pokemon.stock < quantity) {
-		throw new InventoryError('Not enought ' + pokemon.name + ' in stock: ' + pokemon.stock)
-	}
-	return pokemon
-}
-
-const updatePokemonStock = (pokemon, quantity) =>
-	sequelize.transaction(t => 
-		Pokemon
-			.findOne({
-				where: {
-					id: pokemon.id
-				}
-			}, { transaction: t })
-			.then(pokemon => checkInventory(pokemon, quantity))
-			.then(pokemon => 
-				Pokemon
-					.update({
-						stock: pokemon.stock - quantity
-					}, {
-						where: {
-							id: pokemon.id
-						}
-					}, { transaction: t })
-			)
-	)
-
 const buy = (pokemon, quantity, card) =>
-	updatePokemonStock(pokemon, quantity)
+	Pokemon.updatePokemonStock(pokemon.id, quantity)
 		.then(() => pagarmeClient.getPagarmeClient())
 		.then(client => processPurchase(client, pokemon, quantity, card))
 		.then(transaction => checkTransaction(transaction))
