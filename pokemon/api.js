@@ -68,12 +68,10 @@ app.post('/buy-pokemons',
 				})
 			}
 
-			return buyPokemon.buy(pokemon, card, req.body.quantity)
-				.then(body => {
-					res.send(body)
-				}).catch(err => {
-					console.log(err)
-					throw new Error('Something goes wrong')
+			return buyPokemon
+				.buy(pokemon, req.body.quantity, card)
+				.then(transaction => {
+					res.send(transaction)
 				})
 		})
 		.catch(next)
