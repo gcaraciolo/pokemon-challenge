@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const fs = require('fs');
+const cls = require('continuation-local-storage');
 const config = require('../config');
 
 let models = {};
@@ -10,6 +11,8 @@ let sequelize = new Sequelize(
 	config.password,
 	config.options
 );
+
+Sequelize.cls = cls.createNamespace(require('../../../package.json').name);
 
 fs
 	.readdirSync(__dirname)

@@ -1,4 +1,4 @@
-const InventoryError = require('../../pokemon/inventoryError')
+const InventoryError = require('../../errors').InventoryError
 
 module.exports = function(sequelize, DataTypes) {
 	var Pokemon = sequelize.define('pokemon', {
@@ -18,28 +18,7 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		classMethods: {
 			associate: function(models) {
-			},
-			updatePokemonStock: (pokemonId, quantity) =>
-				sequelize.transaction(t => 
-					Pokemon
-						.findOne({
-							where: {
-								id: pokemonId
-							}
-						}, { transaction: t })
-						.then(pokemon => {
-							pokemon.checkInventory(quantity)
-							Pokemon
-								.update({
-									stock: pokemon.stock - quantity
-								}, {
-									where: {
-										id: pokemonId
-									}
-								}, { transaction: t })
-							}
-						)
-				)
+			}
 		},
 		instanceMethods: {
 			checkInventory: function(quantity) {

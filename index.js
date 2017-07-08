@@ -1,7 +1,7 @@
-const app = require('./app')
-const models = require('./database/models')
-const apiErrorHandler = require('./apiErrorHandler')
-const pokemon = require('./pokemon')
+const app = require('./src/app')
+const models = require('./src/database/models')
+const apiErrorHandler = require('./src/apiErrorHandler')
+const pokemon = require('./src/pokemon')
 
 models.sequelize.sync().then(() => {
 	app.use(pokemon.api)

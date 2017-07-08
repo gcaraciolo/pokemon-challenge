@@ -5,7 +5,7 @@ const Promise = require('bluebird')
 
 const models = require('../database/models')
 const buyPokemon = require('./buyPokemon')
-const InventoryError = require('./inventoryError')
+const InventoryError = require('../errors').InventoryError
 
 const Pokemon = models.pokemon
 
@@ -44,39 +44,39 @@ app.post('/buy-pokemons',
 		}
 	}), 
 	function (req, res, next) {
-	// mock card
-	const card = {
-		card_number: '4024007138010896',
-		card_expiration_date: '1050',
-		card_holder_name: 'Ash Ketchum',
-		card_cvv: '123'
-	}
+		// mock card
+		const card = {
+			card_number: '4024007138010896',
+			card_expiration_date: '1050',
+			card_holder_name: 'Ash Ketchum',
+			card_cvv: '123'
+		}
 
-	Pokemon
-		.findOne({
-			where: {
-				name: req.body.name
-			}
-		})
-		.then(pokemon => {
-			if(!pokemon) {
-				return res.status(404).send({
-					error: req.body.name + ' not found'
-				})
-			}
-
-			return buyPokemon
-				.buy(pokemon, req.body.quantity, card)
-				.then(transaction =>
-					res.send(transaction)
-				)
-				.catch(InventoryError, error =>
-					res.status(400).send({
-						error: error.message
+		Pokemon
+			.findOne({
+				where: {
+					name: req.body.name
+				}
+			})
+			.then(pokemon => {
+				if(!pokemon) {
+					return res.status(404).send({
+						error: req.body.name + ' not found'
 					})
-				)
-		})
-		.catch(next)
+				}
+
+				return buyPokemon
+					.buy(pokemon, req.body.quantity, card)
+					.then(transaction =>
+						res.send(transaction)
+					)
+			})
+			.catch(InventoryError, error =>
+				res.status(400).send({
+					error: error.message
+				})
+			)
+			.catch(next)
 });
 
 module.exports = app
