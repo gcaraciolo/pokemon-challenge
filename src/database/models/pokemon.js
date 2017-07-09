@@ -1,4 +1,7 @@
 const InventoryError = require('../../errors').InventoryError
+const models = require('./')
+
+const Payment = models.payment
 
 module.exports = function(sequelize, DataTypes) {
 	var Pokemon = sequelize.define('pokemon', {
@@ -18,7 +21,38 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		classMethods: {
 			associate: function(models) {
-			}
+			},
+			getPokemonWithLockForUpdate: (pokemonId, t) =>
+				Pokemon
+					.findOne({
+						where: {
+							id: pokemonId
+						},
+						lock: {
+							level: t.LOCK.UPDATE,
+							of: Payment
+						}
+					})
+			,
+			decreasePokemonStock: (pokemon, quantity) =>
+				Pokemon
+					.update({
+						stock: pokemon.stock - quantity
+					}, {
+						where: {
+							id: pokemon.id
+						}
+					})
+			,
+			increasePokemonStock: (pokemon, quantity) =>
+				Pokemon
+					.update({
+						stock: pokemon.stock + quantity
+					}, {
+						where: {
+							id: pokemon.id
+						}
+					})
 		},
 		instanceMethods: {
 			checkInventory: function(quantity) {

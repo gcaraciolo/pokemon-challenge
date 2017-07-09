@@ -1,18 +1,13 @@
 const Promise = require('bluebird')
 
 const pagarmeClient = require('../pagarmeClient')
-const PaymentError = require('../errors').PaymentError
 const pokemonStockHandler = require('./pokemonStockHandler')
 
-const Pokemon = require('../database/models').pokemon
+const models = require('../database/models')
+const Pokemon = models.pokemon
+const Payment = models.payment
 
-const checkTransaction = transaction => {
-	if (transaction.status !== 'paid') {
-		throw new PaymentError(transaction)
-	}
-}
-
-const buyPokemon = (client, pokemon, quantity, cardHash) =>
+const doTransaction = (client, pokemon, quantity, cardHash) =>
 	client.transactions
 		.create({
 			amount: pagarmeClient.parseValue(pokemon.price * quantity),
@@ -24,31 +19,39 @@ const buyPokemon = (client, pokemon, quantity, cardHash) =>
 			}
 		})
 
-const handlePaymentError = (error, payment) => console.log(error) ||
+const handlePaymentError = (error, payment, status='fail') =>
 	pokemonStockHandler
-		.revertPokemonStock(payment)
+		.revertPokemonStock(payment, status)
 		.then(() => {
-			throw new Error('Some goes wrong with the payment')
+			throw error
 		})
+
+const initializePurchase = (client, pokemon, quantity, card) =>
+	client.security
+		.encrypt(card)
+		.then(cardHash => doTransaction(client, pokemon, quantity, cardHash))
+
+const finalizePurchase = (payment, transaction) => {
+	if (transaction.status !== 'paid') {
+		throw new Error('payment error: ' + transaction.status)
+	}
+
+	return Payment
+		.confirmPayment(payment, transaction.status)
+		.then(() => transaction)
+}
 
 const processPurchase = (pokemon, quantity, card, payment) =>
 	pagarmeClient
 		.getPagarmeClient()
-		.then(client => 
-			client.security
-				.encrypt(card)
-				.then(cardHash => buyPokemon(client, pokemon, quantity, cardHash))
-		)
-		.catch(PaymentError, error => handlePaymentError(error, payment))
+		.then(client => initializePurchase(client, pokemon, quantity, card))
+		.then(transaction => finalizePurchase(payment, transaction))
+		.catch(error => handlePaymentError(error, payment))
 
 const buy = (pokemon, quantity, card) =>
 	pokemonStockHandler
-		.decreasePokemonStock(pokemon.id, quantity)
+		.removeFromPokemonStock(pokemon.id, quantity)
 		.then(payment => processPurchase(pokemon, quantity, card, payment))
-		.then(transaction => {
-			checkTransaction(transaction)
-			return transaction
-		})
 
 module.exports = {
 	buy

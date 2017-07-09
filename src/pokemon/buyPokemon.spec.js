@@ -3,8 +3,11 @@ const Promise = require('bluebird')
 const buyPokemon = require('./buyPokemon')
 const models = require('../database/models')
 const InventoryError = require('../errors').InventoryError
+const PaymentError = require('../errors').PaymentError
 
 const Pokemon = models.pokemon
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
 const createPokemons = () =>
 	Pokemon.create({
@@ -16,7 +19,7 @@ const createPokemons = () =>
 beforeAll(() => 
 	models.sequelize
 		.sync()
-		.then(() => models.sequelize.query('TRUNCATE TABLE pokemons'))
+		.then(() => models.sequelize.query('TRUNCATE TABLE pokemons, payments'))
 		.then(() => createPokemons())
 )
 
@@ -48,17 +51,79 @@ test('pokemon.buy concurrent bought', () => {
 		.catch(InventoryError, error => {
 			expect(error.name).toBe('InventoryError')
 		})
-		.then(() => Pokemon.findOne({
-			where: {
-				name: 'picachu'
-			}
-		}))
+		.then(() => 
+			Pokemon
+				.findOne({
+					where: {
+						name: 'picachu'
+					}
+				})
+		)
 		.then(pokemon => {
 			expect(pokemon.stock).toBe(0)
 		})
 		.catch(error => console.log(error))
 })
 
+test('pokemon.buy with invalid card', () => {
+	const card = {
+		card_number: '4024007138010897',
+		card_expiration_date: '1050',
+		card_holder_name: 'Ash Ketchum',
+		card_cvv: '123'
+	}
+
+	expect.assertions(2)
+
+	function increasePokemonStock() {
+		return Pokemon
+			.update({
+				stock: 1
+			}, {
+				where: {
+					name: 'picachu'
+				}
+			})
+	}
+
+	function decreasePokemonStock() {
+		return Pokemon
+			.update({
+				stock: 0
+			}, {
+				where: {
+					name: 'picachu'
+				}
+			})
+	}
+
+	return increasePokemonStock()
+		.then(() =>
+			Pokemon
+				.findOne({
+					where: {
+						name: 'picachu'
+					}
+				})
+		)
+		.then(pokemon => buyPokemon.buy(pokemon, 1, card))
+		.catch(error => {
+			expect(error.name).toBe('ApiError')
+		})
+		.then(() =>
+			Pokemon
+				.findOne({
+					where: {
+						name: 'picachu'
+					}
+				})
+		)
+		.then(pokemon => {
+			expect(pokemon.stock).toBe(1)
+		})
+		.then(() => decreasePokemonStock())
+})
+
 afterAll(() =>
-	models.sequelize.query('TRUNCATE TABLE pokemons')
+	models.sequelize.query('TRUNCATE TABLE pokemons, payments')
 )
