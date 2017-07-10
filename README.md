@@ -31,5 +31,5 @@ $ node index
 * Tests must be run in a empty database.
 
 ```
-$npm test
+$ npm test
 ```
