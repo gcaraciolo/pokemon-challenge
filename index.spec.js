@@ -26,8 +26,8 @@ test('pokemons.list', () => {
 })
 
 test('pokemons.create', () => {
-	const picachu = {
-		name: 'picachu',
+	const pikachu = {
+		name: 'pikachu',
 		price: 15.56,
 		stock: 3
 	}
@@ -35,15 +35,15 @@ test('pokemons.create', () => {
 	return request(app)
 		.put('/create-pokemons')
 		.type('Application/json')
-		.send(picachu)
+		.send(pikachu)
 		.expect(200)
 		.then(response => {
-			expect(response.body).toMatchObject(picachu)
+			expect(response.body).toMatchObject(pikachu)
 		})
 })
 
 test('pokemons.create with invalid params', () => {
-	const picachu = {
+	const pikachu = {
 		price: 'adsas',
 		stock: '!#@!$'
 	}
@@ -51,7 +51,7 @@ test('pokemons.create with invalid params', () => {
 	return request(app)
 		.put('/create-pokemons')
 		.type('Application/json')
-		.send(picachu)
+		.send(pikachu)
 		.expect(400)
 		.then(response => {
 			expect(response.body).toHaveProperty('errors')
@@ -93,7 +93,7 @@ test('pokemons.create with invalid params', () => {
 test('pokemons.list after create ', () => {
 	const pokemons = [{
 		id: expect.stringMatching(idRegex),
-		name: 'picachu',
+		name: 'pikachu',
 		price: 15.56,
 		stock: 3,
 		createdAt: expect.stringMatching(iso8601Regex),
@@ -111,7 +111,7 @@ test('pokemons.list after create ', () => {
 
 test('pokemons.buy', () => {
 	const pokemonToBuy = {
-		name: 'picachu',
+		name: 'pikachu',
 		quantity: 2
 	}
 
@@ -184,7 +184,7 @@ test('pokemons.buy with invalid params', () => {
 test('pokemons.list after bought ', () => {
 	const pokemons = [{
 		id: expect.stringMatching(idRegex),
-		name: 'picachu',
+		name: 'pikachu',
 		price: 15.56,
 		stock: 1,
 		createdAt: expect.stringMatching(iso8601Regex),
@@ -202,7 +202,7 @@ test('pokemons.list after bought ', () => {
 
 test('pokemons.buy not enough ', () => {
 	const pokemonToBuy = {
-		name: 'picachu',
+		name: 'pikachu',
 		quantity: 5
 	}
 
@@ -213,6 +213,6 @@ test('pokemons.buy not enough ', () => {
 		.expect(400)
 		.then((response) => {
 			expect(response.body).toHaveProperty('error')
-			expect(response.body.error).toEqual(expect.stringContaining('Not enought picachu in stock: '))
+			expect(response.body.error).toEqual(expect.stringContaining('Not enought pikachu in stock: '))
 		})
 })

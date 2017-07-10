@@ -11,7 +11,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 
 const createPokemons = () =>
 	Pokemon.create({
-		name: 'picachu',
+		name: 'pikachu',
 		price: 15.53,
 		stock: 2
 	})
@@ -35,7 +35,7 @@ test('pokemon.buy concurrent bought', () => {
 		return Pokemon
 			.findOne({
 				where: {
-					name: 'picachu'
+					name: 'pikachu'
 				}
 			})
 			.then(pokemon => buyPokemon.buy(pokemon, 1, card))
@@ -55,7 +55,7 @@ test('pokemon.buy concurrent bought', () => {
 			Pokemon
 				.findOne({
 					where: {
-						name: 'picachu'
+						name: 'pikachu'
 					}
 				})
 		)
@@ -81,7 +81,7 @@ test('pokemon.buy with invalid card', () => {
 				stock: 1
 			}, {
 				where: {
-					name: 'picachu'
+					name: 'pikachu'
 				}
 			})
 	}
@@ -92,7 +92,7 @@ test('pokemon.buy with invalid card', () => {
 				stock: 0
 			}, {
 				where: {
-					name: 'picachu'
+					name: 'pikachu'
 				}
 			})
 	}
@@ -102,7 +102,7 @@ test('pokemon.buy with invalid card', () => {
 			Pokemon
 				.findOne({
 					where: {
-						name: 'picachu'
+						name: 'pikachu'
 					}
 				})
 		)
@@ -114,7 +114,7 @@ test('pokemon.buy with invalid card', () => {
 			Pokemon
 				.findOne({
 					where: {
-						name: 'picachu'
+						name: 'pikachu'
 					}
 				})
 		)

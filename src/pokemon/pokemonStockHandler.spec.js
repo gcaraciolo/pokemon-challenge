@@ -9,7 +9,7 @@ const Payment = models.payment
 
 const createPokemons = () =>
 	Pokemon.create({
-		name: 'picachu',
+		name: 'pikachu',
 		price: 15.53,
 		stock: 2
 	})
@@ -29,7 +29,7 @@ test('pokemon.stock remove pokemon from stock', () => {
 	return Pokemon
 		.findOne({
 			where: {
-				name: 'picachu'
+				name: 'pikachu'
 			}
 		})
 		.then(pokemon =>
@@ -43,7 +43,7 @@ test('pokemon.stock remove pokemon from stock', () => {
 			Pokemon
 				.findOne({
 					where: {
-						name: 'picachu'
+						name: 'pikachu'
 					}
 				})
 		)
@@ -59,7 +59,7 @@ test('pokemon.stock revert pokemon stock', () => {
 	return Pokemon
 		.findOne({
 			where: {
-				name: 'picachu'
+				name: 'pikachu'
 			}
 		})
 		.then(pokemon =>
@@ -78,7 +78,7 @@ test('pokemon.stock revert pokemon stock', () => {
 			Pokemon
 				.findOne({
 					where: {
-						name: 'picachu'
+						name: 'pikachu'
 					}
 				})
 		)
