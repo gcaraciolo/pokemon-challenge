@@ -1,15 +1,35 @@
-considerações
+# Pokemon challenge web
+Api for the pokemon-challenge app.
 
-para uma api com uso mais intenso o console.log não é uma boa solução para monitorar os erros
-que acontecem na api. eu usaria alguma solução pronta, como o sentry.io
+## Project setup
+```
+$ git clone https://github.com/gcaraciolo/pokemon-challenge.git
+$ cd pokemon-challenge
+$ npm install
+# create database
+$ vim .env
+# set environment variable values
+$ node index
+```
 
-a nomeclatura das rotas está verbosa, por ex: get-pokemons/create-pokemons.
-podiamos alterar isso para usar os verbos HTTP get e post na rota pokemons,
-mas essa alteração deve ser feita de maneira gradativa, mantendo a compatibilidade
-com as versões anteriores, para não prejudicar que já faz uso dessa api.
+## Database
+* Project tested with Postgres
 
+## Environment variables
+| Key | Description | Example |
+| ------------- | ------------- | ------------- |
+| DB_USER | Database user | computer01 |
+| DB_PASSWORD | Database password |  |
+| DB_NAME | Database name | pokemons |
+| DB_HOST | Database host |  |
+| DB_PORT | Database port |  |
+| DB_DIALECT | Database dialect used by sequelize | postgres |
+| PAGARME_API_KEY | Pagarme API KEY | ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg |
+| SERVER_PORT | Api port | 3000 |
 
+## Test
+* Tests must be run in a empty database.
 
-
-LEMBRAR
-api_key connect lib pagar doc está defasada
+```
+$npm test
+```
