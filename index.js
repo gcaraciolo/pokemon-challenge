@@ -9,7 +9,8 @@ const ready = () => console.log(`Server listening on port ${constants.SERVER_POR
 models.sequelize.sync().then(() => {
   app.use(pokemon.routes)
 
-  app.use(apiErrorHandler)
+  app.use(apiErrorHandler.notFound)
+  app.use(apiErrorHandler.serverError)
 
   app.listen(constants.SERVER_PORT, ready)
 })
