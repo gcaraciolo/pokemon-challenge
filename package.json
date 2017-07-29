@@ -1,12 +1,11 @@
 {
   "name": "pokemon",
-  "version": "1.0.0",
-  "description": "Example of a really bad code",
+  "version": "1.0.1",
+  "description": "Api to buy pokemons",
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jest --verbose --maxWorkers=1",
-    "eslint": "eslint"
+    "test": "jest --verbose --maxWorkers=1"
   },
   "author": "",
   "license": "ISC",
@@ -28,12 +27,18 @@
     "supertest": "3.0.0"
   },
   "devDependencies": {
-    "eslint": "4.3.0",
-    "eslint-config-airbnb-base": "11.3.1",
-    "eslint-plugin-import": "2.7.0",
-    "jest": "20.0.4"
+    "jest": "20.0.4",
+    "standard": "10.0.2"
   },
   "jest": {
     "testEnvironment": "node"
+  },
+  "standard": {
+    "globals": [
+      "jasmine"
+    ],
+    "env": [
+      "jest"
+    ]
   }
 }

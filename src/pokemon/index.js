@@ -1,3 +1,5 @@
+const api = require('./api')
+
 module.exports = {
-	api: require('./api')
+  api
 }
