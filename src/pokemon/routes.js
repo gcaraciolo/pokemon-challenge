@@ -4,9 +4,9 @@ const paramValidation = require('express-validation')
 
 const pokemonController = require('./pokemonController')
 
-app.get('/get-pokemons', pokemonController.list)
+app.get('/pokemons', pokemonController.list)
 
-app.put('/create-pokemons',
+app.post('/pokemons',
   paramValidation({
     body: {
       name: Joi.string().alphanum()
@@ -19,7 +19,7 @@ app.put('/create-pokemons',
   pokemonController.create
 )
 
-app.post('/buy-pokemons',
+app.post('/pokemons/buy',
   paramValidation({
     body: {
       name: Joi.string().alphanum()

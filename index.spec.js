@@ -17,7 +17,7 @@ afterAll(() => {
   app.close()
 })
 
-test('pokemons.list', () => request(app).get('/get-pokemons').then((response) => {
+test('pokemons.list', () => request(app).get('/pokemons').then((response) => {
   expect(response.body.length).toBe(0)
 }))
 
@@ -29,7 +29,7 @@ test('pokemons.create', () => {
   }
 
   return request(app)
-    .put('/create-pokemons')
+    .post('/pokemons')
     .type('Application/json')
     .send(pikachu)
     .expect(200)
@@ -45,7 +45,7 @@ test('pokemons.create with invalid params', () => {
   }
 
   return request(app)
-    .put('/create-pokemons')
+    .post('/pokemons')
     .type('Application/json')
     .send(pikachu)
     .expect(400)
@@ -97,7 +97,7 @@ test('pokemons.list after create ', () => {
   }]
 
   return request(app)
-    .get('/get-pokemons')
+    .get('/pokemons')
     .expect(200)
     .then((response) => {
       expect(response.body.length).toBe(1)
@@ -112,7 +112,7 @@ test('pokemons.buy', () => {
   }
 
   return request(app)
-    .post('/buy-pokemons')
+    .post('/pokemons/buy')
     .type('Application/json')
     .send(pokemonToBuy)
     .expect(200)
@@ -129,7 +129,7 @@ test('pokemons.buy not found', () => {
   }
 
   return request(app)
-    .post('/buy-pokemons')
+    .post('/pokemons/buy')
     .type('Application/json')
     .send(pokemonToBuy)
     .expect(404)
@@ -145,7 +145,7 @@ test('pokemons.buy with invalid params', () => {
   }
 
   return request(app)
-    .post('/buy-pokemons')
+    .post('/pokemons/buy')
     .type('Application/json')
     .send(pokemonToBuy)
     .expect(400)
@@ -188,7 +188,7 @@ test('pokemons.list after bought ', () => {
   }]
 
   return request(app)
-    .get('/get-pokemons')
+    .get('/pokemons')
     .expect(200)
     .then((response) => {
       expect(response.body.length).toBe(1)
@@ -203,7 +203,7 @@ test('pokemons.buy not enough ', () => {
   }
 
   return request(app)
-    .post('/buy-pokemons')
+    .post('/pokemons/buy')
     .type('Application/json')
     .send(pokemonToBuy)
     .expect(400)
