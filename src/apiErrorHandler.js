@@ -1,6 +1,6 @@
 const ValidationError = require('express-validation').ValidationError
 
-const apiErrorHandler = (err, req, res) => {
+const apiErrorHandler = (err, req, res, next) => {
   if (err instanceof ValidationError) {
     res.status(err.status).send(err)
   } else {
