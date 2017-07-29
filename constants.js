@@ -1,5 +1,7 @@
+const config = require('dotenv').config;
+
 try {
-  require('dotenv').config({ path: `${__dirname}/.env` })
+  config({ path: `${__dirname}/.env` })
 } catch (error) {
   console.log('.env file/dotenv lib not found. using env vars from current environment')
 }
