@@ -1,4 +1,4 @@
-const InventoryError = require('./inventoryError')
+const InventoryError = require('./InventoryError')
 
 module.exports = {
   InventoryError
