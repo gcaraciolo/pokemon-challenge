@@ -1,4 +1,5 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=plastic)]()
 
 # Pokemon challenge web
 Api for the pokemon-challenge app.
