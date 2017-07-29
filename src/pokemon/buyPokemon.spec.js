@@ -107,7 +107,7 @@ test('pokemon.buy with invalid card', () => {
     )
     .then(pokemon => buyPokemon.buy(pokemon, 1, card))
     .catch((error) => {
-      expect(error.name).toBe('ApiError')
+      expect(error.message).toBe('payment error: refused')
     })
     .then(() =>
       Pokemon
