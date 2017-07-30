@@ -1,18 +1,28 @@
-const ValidationError = require('express-validation').ValidationError
+const apiError = require('./errors').apiError
 
-const notFound = (req, res, next) =>
+const invalidParameter = (err, req, res, next) => {
+  if (err.message !== 'invalid_parameter') {
+    return next(err)
+  }
+
+  const response = apiError(
+    req.paramErrors.useFirstErrorOnly().array()
+  )
+
+  res.status(400).json(response)
+}
+
+const notFound = (req, res, next) => {
   res.status(404).send('Not Found')
+}
 
 const serverError = (err, req, res, next) => {
-  if (err instanceof ValidationError) {
-    res.status(err.status).send(err)
-  } else {
-    console.log(err)
-    res.status(500).send('Server error')
-  }
+  console.log(err)
+  res.status(500).send('Server error')
 }
 
 module.exports = {
+  invalidParameter,
   notFound,
   serverError
 }

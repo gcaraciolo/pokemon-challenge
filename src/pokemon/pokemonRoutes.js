@@ -1,33 +1,24 @@
 const pokemonRoutes = require('express').Router()
-const Joi = require('joi')
-const paramValidation = require('express-validation')
-
 const pokemonController = require('./pokemonController')
+const parameterValidator = require('../parameterValidator')
 
 pokemonRoutes.get('/pokemons', pokemonController.list)
 
 pokemonRoutes.post('/pokemons',
-  paramValidation({
-    body: {
-      name: Joi.string().alphanum()
-        .min(1).max(255)
-        .required(),
-      price: Joi.number()
-        .required().label('Pokemon price'),
-      stock: Joi.number().integer()
-    }
+  parameterValidator((req) => {
+    req.checkBody('name', 'name is required and can only contain letters with 1 to 255 characters')
+      .isAlpha().isLength({ min: 1, max: 255 })
+    req.checkBody('price', 'price must be a decimal number').isDecimal()
+    req.checkBody('stock', 'stock must be a integer').isInt()
   }),
   pokemonController.create
 )
 
 pokemonRoutes.post('/pokemons/buy',
-  paramValidation({
-    body: {
-      name: Joi.string().alphanum()
-        .min(1).max(255)
-        .required(),
-      quantity: Joi.number().integer().required()
-    }
+  parameterValidator((req) => {
+    req.checkBody('name', 'name is required and can only contain letters with 1 to 255 characters')
+      .isAlpha().isLength({ min: 1, max: 255 })
+    req.checkBody('quantity', 'quantity is required and must be an integer').isInt()
   }),
   pokemonController.buy
 )

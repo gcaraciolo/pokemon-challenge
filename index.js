@@ -10,6 +10,7 @@ models.sequelize.sync().then(() => {
   app.use(pokemon.pokemonRoutes)
 
   app.use(apiErrorHandler.notFound)
+  app.use(apiErrorHandler.invalidParameter)
   app.use(apiErrorHandler.serverError)
 
   app.listen(constants.SERVER_PORT, ready)
