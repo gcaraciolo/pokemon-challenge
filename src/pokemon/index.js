@@ -1,5 +1,5 @@
-const routes = require('./routes')
+const pokemonRoutes = require('./pokemonRoutes')
 
 module.exports = {
-  routes
+  pokemonRoutes
 }

@@ -7,7 +7,7 @@ const constants = require('./constants.js')
 const ready = () => console.log(`Server listening on port ${constants.SERVER_PORT}`)
 
 models.sequelize.sync().then(() => {
-  app.use(pokemon.routes)
+  app.use(pokemon.pokemonRoutes)
 
   app.use(apiErrorHandler.notFound)
   app.use(apiErrorHandler.serverError)
