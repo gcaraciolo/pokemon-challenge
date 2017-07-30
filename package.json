@@ -7,8 +7,8 @@
     "start": "node index",
     "test": "jest --verbose --maxWorkers=1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Guilherme Caraciolo",
+  "license": "MIT",
   "dependencies": {
     "bluebird": "3.5.0",
     "body-parser": "1.17.2",
