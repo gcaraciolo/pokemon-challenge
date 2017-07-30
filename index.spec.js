@@ -52,36 +52,23 @@ test('pokemons.create with invalid params', () => {
     .then((response) => {
       expect(response.body).toHaveProperty('errors')
       expect(response.body).toEqual(expect.objectContaining({
-        status: 400,
-        statusText: 'Bad Request',
-        errors: [{
-          field: 'name',
-          location: 'body',
-          messages: [
-            '\"name\" is required'
-          ],
-          types: [
-            'any.required'
-          ]
-        }, {
-          field: 'price',
-          location: 'body',
-          messages: [
-            '\"price\" must be a number'
-          ],
-          types: [
-            'number.base'
-          ]
-        }, {
-          field: 'stock',
-          location: 'body',
-          messages: [
-            '\"stock\" must be a number'
-          ],
-          types: [
-            'number.base'
-          ]
-        }]
+        errors: [
+          {
+            message: 'name is required and can only contain letters with 1 to 255 characters',
+            parameter_name: 'name',
+            type: 'invalid_parameter'
+          },
+          {
+            message: 'price must be a decimal number',
+            parameter_name: 'price',
+            type: 'invalid_parameter'
+          },
+          {
+            message: 'stock must be a integer',
+            parameter_name: 'stock',
+            type: 'invalid_parameter'
+          }
+        ]
       }))
     })
 })
@@ -152,27 +139,18 @@ test('pokemons.buy with invalid params', () => {
     .then((response) => {
       expect(response.body).toHaveProperty('errors')
       expect(response.body).toEqual(expect.objectContaining({
-        status: 400,
-        statusText: 'Bad Request',
-        errors: [{
-          field: 'name',
-          location: 'body',
-          messages: [
-            '\"name\" is required'
-          ],
-          types: [
-            'any.required'
-          ]
-        }, {
-          field: 'quantity',
-          location: 'body',
-          messages: [
-            '\"quantity\" must be an integer'
-          ],
-          types: [
-            'number.integer'
-          ]
-        }]
+        errors: [
+          {
+            message: 'name is required and can only contain letters with 1 to 255 characters',
+            parameter_name: 'name',
+            type: 'invalid_parameter'
+          },
+          {
+            message: 'quantity is required and must be an integer',
+            parameter_name: 'quantity',
+            type: 'invalid_parameter'
+          }
+        ]
       }))
     })
 })
