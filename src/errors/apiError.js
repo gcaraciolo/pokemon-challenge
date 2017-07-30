@@ -1,4 +1,4 @@
-const apiError = (errors = []) => ({
+const parameterError = (errors = []) => ({
   errors: errors.map(error => ({
     message: error.msg,
     parameter_name: error.param,
@@ -6,4 +6,11 @@ const apiError = (errors = []) => ({
   }))
 })
 
-module.exports = apiError
+const controllerError = (errors = []) => ({
+  errors
+})
+
+module.exports = {
+  parameterError,
+  controllerError
+}

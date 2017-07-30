@@ -1,6 +1,8 @@
 const models = require('../database/models')
 const buyPokemon = require('./buyPokemon')
-const InventoryError = require('../errors').InventoryError
+const errors = require('../errors')
+const InventoryError = errors.InventoryError
+const apiError = errors.apiError
 
 const Pokemon = models.pokemon
 
@@ -37,9 +39,11 @@ const buy = (req, res, next) =>
     })
     .then((pokemon) => {
       if (!pokemon) {
-        return res.status(404).send({
-          error: `${req.body.name} not found`
-        })
+        return res.status(404).json(apiError.controllerError(
+          [
+            { message: `${req.body.name} not found` }
+          ]
+        ))
       }
 
       return buyPokemon
@@ -49,9 +53,11 @@ const buy = (req, res, next) =>
         )
     })
     .catch(InventoryError, error =>
-      res.status(400).send({
-        error: error.message
-      })
+      res.status(400).json(apiError.controllerError(
+        [
+          { message: error.message }
+        ]
+      ))
     )
     .catch(next)
 

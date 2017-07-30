@@ -121,8 +121,10 @@ test('pokemons.buy not found', () => {
     .send(pokemonToBuy)
     .expect(404)
     .then((response) => {
-      expect(response.body).toHaveProperty('error')
-      expect(response.body.error).toEqual(expect.stringContaining('not found'))
+      expect(response.body).toHaveProperty('errors')
+      expect(response.body.errors).toEqual(expect.arrayContaining([{
+        message: 'bulbasaur not found'
+      }]))
     })
 })
 
@@ -186,7 +188,9 @@ test('pokemons.buy not enough ', () => {
     .send(pokemonToBuy)
     .expect(400)
     .then((response) => {
-      expect(response.body).toHaveProperty('error')
-      expect(response.body.error).toEqual(expect.stringContaining('Not enought pikachu in stock: '))
+      expect(response.body).toHaveProperty('errors')
+      expect(response.body.errors).toEqual(expect.arrayContaining([{
+        message: 'Not enough pikachu in stock: 1'
+      }]))
     })
 })

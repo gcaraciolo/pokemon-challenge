@@ -5,7 +5,7 @@ const invalidParameter = (err, req, res, next) => {
     return next(err)
   }
 
-  const response = apiError(
+  const response = apiError.parameterError(
     req.paramErrors.useFirstErrorOnly().array()
   )
 
