@@ -1,4 +1,4 @@
-const config = require('dotenv').config;
+const config = require('dotenv').config
 
 try {
   config({ path: `${__dirname}/.env` })
