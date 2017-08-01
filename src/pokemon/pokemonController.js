@@ -4,7 +4,7 @@ const errors = require('../errors')
 const InventoryError = errors.InventoryError
 const apiError = errors.apiError
 
-const Pokemon = models.pokemon
+const Pokemon = models.pokemons
 
 // mock card
 const card = {

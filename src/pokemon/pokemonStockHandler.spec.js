@@ -1,8 +1,8 @@
 const pokemonStockHandler = require('./pokemonStockHandler')
 const models = require('../database/models')
 
-const Pokemon = models.pokemon
-const Payment = models.payment
+const Pokemon = models.pokemons
+const Payment = models.payments
 
 const createPokemons = () =>
   Pokemon.create({

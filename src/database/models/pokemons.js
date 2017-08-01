@@ -1,23 +1,13 @@
 const InventoryError = require('../../errors').InventoryError
 const models = require('./')
 
-const Payment = models.payment
+const Payment = models.payments
 
 module.exports = (sequelize, DataTypes) => {
-  const Pokemon = sequelize.define('pokemon', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    stock: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 1
-    }
+  const Pokemon = sequelize.define('pokemons', {
+    name: DataTypes.STRING,
+    price: DataTypes.FLOAT,
+    stock: DataTypes.INTEGER
   }, {
     classMethods: {
       associate () {

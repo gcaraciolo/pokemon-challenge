@@ -1,18 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-  const Payment = sequelize.define('payment', {
-    status: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: 'processing'
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
+  const Payment = sequelize.define('payments', {
+    status: DataTypes.STRING,
+    quantity: DataTypes.INTEGER
   }, {
     classMethods: {
       associate (models) {
-        Payment.belongsTo(models.pokemon, {
+        Payment.belongsTo(models.pokemons, {
           foreignKey: 'pokemon_id',
           as: 'pokemon'
         })

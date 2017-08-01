@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config.options
+  config
 )
 
 Sequelize.cls = cls.createNamespace(require('../../../package.json').name)

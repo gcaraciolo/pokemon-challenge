@@ -4,7 +4,7 @@ const buyPokemon = require('./buyPokemon')
 const models = require('../database/models')
 const InventoryError = require('../errors').InventoryError
 
-const Pokemon = models.pokemon
+const Pokemon = models.pokemons
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
 

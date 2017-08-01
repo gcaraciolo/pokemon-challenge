@@ -4,7 +4,7 @@ const pokemonStockHandler = require('./pokemonStockHandler')
 
 const models = require('../database/models')
 
-const Payment = models.payment
+const Payment = models.payments
 
 const doTransaction = (client, pokemon, quantity, cardHash) =>
   client.transactions

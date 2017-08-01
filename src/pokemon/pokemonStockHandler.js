@@ -2,8 +2,8 @@ const models = require('../database/models')
 
 const sequelize = models.sequelize
 const Sequelize = models.Sequelize
-const Pokemon = models.pokemon
-const Payment = models.payment
+const Pokemon = models.pokemons
+const Payment = models.payments
 
 const removeFromPokemonStock = (pokemonId, quantity) =>
   sequelize
