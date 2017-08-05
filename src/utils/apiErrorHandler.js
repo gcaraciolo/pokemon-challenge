@@ -1,4 +1,4 @@
-const apiError = require('../errors/index').apiError
+const apiError = require('../errors').apiError
 
 const invalidParameter = (err, req, res, next) => {
   if (err.message !== 'invalid_parameter') {
