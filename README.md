@@ -12,6 +12,9 @@ $ npm install
 # create database
 $ vim .env
 # set environment variable values
+# run migration
+$ npx sequelize db:migrate
+# start server
 $ node index
 ```
 
