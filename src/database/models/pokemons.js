@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
           })
     },
     instanceMethods: {
-      checkInventory (quantity) {
+      checkInventory: (quantity) => {
         if (this.stock < quantity) {
           throw new InventoryError(this.name, this.stock)
         }
