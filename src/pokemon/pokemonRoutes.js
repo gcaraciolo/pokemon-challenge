@@ -2,9 +2,9 @@ const pokemonRoutes = require('express').Router()
 const pokemonController = require('./pokemonController')
 const parameterValidator = require('../parameterValidator')
 
-pokemonRoutes.get('/pokemons', pokemonController.list)
+pokemonRoutes.get('/', pokemonController.list)
 
-pokemonRoutes.post('/pokemons',
+pokemonRoutes.post('/',
   parameterValidator((req) => {
     req.checkBody('name', 'name is required and can only contain letters with 1 to 255 characters')
       .isAlpha().isLength({ min: 1, max: 255 })
@@ -14,7 +14,7 @@ pokemonRoutes.post('/pokemons',
   pokemonController.create
 )
 
-pokemonRoutes.post('/pokemons/buy',
+pokemonRoutes.post('/buy',
   parameterValidator((req) => {
     req.checkBody('name', 'name is required and can only contain letters with 1 to 255 characters')
       .isAlpha().isLength({ min: 1, max: 255 })
