@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
 const cors = require('cors')
 
-const apiErrorHandler = require('./apiErrorHandler')
+const apiErrorHandler = require('./utils/apiErrorHandler')
 const routes = require('./routes')
 
 const app = express()

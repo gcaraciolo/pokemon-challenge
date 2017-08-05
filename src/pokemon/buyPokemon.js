@@ -1,5 +1,5 @@
 // TODO: file name very bad.
-const pagarmeClient = require('../pagarmeClient')
+const pagarmeClient = require('../utils/pagarmeClient')
 const pokemonStockHandler = require('./pokemonStockHandler')
 
 const models = require('../database/models')

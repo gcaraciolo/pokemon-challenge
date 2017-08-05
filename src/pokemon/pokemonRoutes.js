@@ -1,6 +1,6 @@
 const pokemonRoutes = require('express').Router()
 const pokemonController = require('./pokemonController')
-const parameterValidator = require('../parameterValidator')
+const parameterValidator = require('../utils/parameterValidator')
 
 pokemonRoutes.get('/', pokemonController.list)
 
