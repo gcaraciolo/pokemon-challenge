@@ -1,10 +1,4 @@
-const config = require('dotenv').config
-
-try {
-  config({ path: `${__dirname}/.env` })
-} catch (error) {
-  console.log('.env file/dotenv lib not found. using env vars from current environment')
-}
+require('dotenv').config({ path: `${__dirname}/.env` })
 
 const parseBoolean = (v) => (v && v.toLowerCase() === 'true')
 
