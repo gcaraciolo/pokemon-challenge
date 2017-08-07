@@ -32,7 +32,7 @@ test('pokemons.create', () => {
     .post('/pokemons')
     .type('Application/json')
     .send(pikachu)
-    .expect(200)
+    .expect(201)
     .then((response) => {
       expect(response.body).toMatchObject(pikachu)
     })
