@@ -6,8 +6,10 @@ const parameterError = (errors = []) => ({
   }))
 })
 
-const controllerError = (errors = []) => ({
-  errors
+const controllerError = (messages = []) => ({
+  errors: messages.map(message => ({
+    message
+  }))
 })
 
 module.exports = {
