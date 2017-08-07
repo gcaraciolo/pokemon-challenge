@@ -41,7 +41,7 @@ const buy = (req, res, next) =>
       if (!pokemon) {
         return res.status(404).json(apiError.controllerError(
           [
-            { message: `${req.body.name} not found` }
+            `${req.body.name} not found`
           ]
         ))
       }
@@ -55,7 +55,7 @@ const buy = (req, res, next) =>
     .catch(InventoryError, error =>
       res.status(400).json(apiError.controllerError(
         [
-          { message: error.message }
+          error.message
         ]
       ))
     )
