@@ -4,6 +4,9 @@
 # Pokemon challenge web
 Api for the pokemon-challenge app.
 
+## API documentation
+Link: [API documantation](https://gcaraciolo.github.io/pokemon-challenge)
+
 ## Project setup
 ```
 $ git clone https://github.com/gcaraciolo/pokemon-challenge.git
