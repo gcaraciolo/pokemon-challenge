@@ -26,7 +26,7 @@ const create = (req, res, next) =>
   Pokemon
     .create(req.body)
     .then((pokemon) => {
-      res.send(pokemon)
+      res.status(201).json(pokemon)
     })
     .catch(next)
 

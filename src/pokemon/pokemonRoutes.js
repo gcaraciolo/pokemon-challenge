@@ -50,7 +50,7 @@ pokemonRoutes.get('/', pokemonController.list)
  * @apiSuccess {Date} pokemons.updatedAt
  *
  * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
+ *     HTTP/1.1 201 OK
  *     {
  *       "id": 10,
  *       "name": "pikachu",
