@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jest --verbose --maxWorkers=1"
+    "test": "jest --verbose --maxWorkers=1",
+    "docs": "apidoc -o docs/ -i src/"
   },
   "author": "Guilherme Caraciolo",
   "license": "MIT",

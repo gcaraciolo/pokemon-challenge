@@ -39,3 +39,8 @@ $ node index
 ```
 $ npm test
 ```
+
+## Generate API documentation
+```
+$ npm run docs
+```
