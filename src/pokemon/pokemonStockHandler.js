@@ -1,32 +1,25 @@
 const models = require('../database/models')
+const transaction = require('../utils/transaction')
 
-const sequelize = models.sequelize
-const Sequelize = models.Sequelize
 const Pokemon = models.pokemons
 const Payment = models.payments
 
 const removeFromPokemonStock = (pokemonId, quantity) =>
-  sequelize
-    .transaction({
-      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
-    }, t =>
-      Pokemon.getPokemonWithLockForUpdate(pokemonId, t)
-        .then((pokemon) => {
-          pokemon.checkInventory(quantity)
-          return Pokemon.decreasePokemonStock(pokemon, quantity)
-        })
-        .then(() => Payment.createPayment(pokemonId, quantity))
-    )
+  transaction.openReadCommitted(t =>
+    Pokemon.getWithLockForUpdate(pokemonId, t)
+      .then((pokemon) => pokemon.decreaseStock(quantity))
+      .then(() => Payment.create({
+        pokemon_id: pokemonId,
+        quantity
+      }))
+  )
 
 const revertPokemonStock = (payment, status) =>
-  sequelize
-    .transaction({
-      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
-    }, t =>
-      Pokemon.getPokemonWithLockForUpdate(payment.pokemon_id, t)
-        .then(pokemon => Pokemon.increasePokemonStock(pokemon, payment.quantity))
-        .then(() => Payment.cancelPayment(payment, status))
-    )
+  transaction.openReadCommitted(t =>
+    Pokemon.getWithLockForUpdate(payment.pokemon_id, t)
+      .then(pokemon => pokemon.increaseStock(payment.quantity))
+      .then(() => payment.abort())
+  )
 
 module.exports = {
   removeFromPokemonStock,

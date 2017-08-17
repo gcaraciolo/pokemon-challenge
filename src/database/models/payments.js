@@ -1,6 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Payment = sequelize.define('payments', {
-    status: DataTypes.STRING,
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'processing'
+    },
     quantity: DataTypes.INTEGER
   }, {
     classMethods: {
@@ -9,31 +12,18 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'pokemon_id',
           as: 'pokemon'
         })
+      }
+    },
+    instanceMethods: {
+      confirm () {
+        this.status = 'paid'
+        return this.save()
       },
-      createPayment: (pokemonId, quantity) =>
-        Payment
-          .create({
-            pokemon_id: pokemonId,
-            quantity
-          }),
-      confirmPayment: (payment, status) =>
-        Payment
-          .update({
-            status
-          }, {
-            where: {
-              id: payment.id
-            }
-          }),
-      cancelPayment: (payment, status) =>
-        Payment
-          .update({
-            status
-          }, {
-            where: {
-              id: payment.id
-            }
-          })
+
+      abort () {
+        this.status = 'failed'
+        return this.save()
+      }
     }
   })
 

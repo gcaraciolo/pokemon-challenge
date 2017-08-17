@@ -11,7 +11,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: 'processing'
+        defaultValue: 'processing' // ['processing', 'paid', 'failed']
       },
       quantity: {
         type: Sequelize.INTEGER,

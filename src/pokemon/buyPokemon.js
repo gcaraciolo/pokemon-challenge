@@ -19,8 +19,7 @@ const doTransaction = (client, pokemon, quantity, cardHash) =>
     })
 
 const handlePaymentError = (error, payment, status = 'fail') =>
-  pokemonStockHandler
-    .revertPokemonStock(payment, status)
+  pokemonStockHandler.revertPokemonStock(payment, status)
     .then(() => {
       throw error
     })
@@ -35,21 +34,18 @@ const finalizePurchase = (payment, transaction) => {
     throw new Error(`payment error: ${transaction.status}`)
   }
 
-  return Payment
-    .confirmPayment(payment, transaction.status)
+  return payment.confirm()
     .then(() => transaction)
 }
 
 const processPurchase = (pokemon, quantity, card, payment) =>
-  pagarmeClient
-    .getPagarmeClient()
+  pagarmeClient.getPagarmeClient()
     .then(client => initializePurchase(client, pokemon, quantity, card))
     .then(transaction => finalizePurchase(payment, transaction))
     .catch(error => handlePaymentError(error, payment))
 
 const buy = (pokemon, quantity, card) =>
-  pokemonStockHandler
-    .removeFromPokemonStock(pokemon.id, quantity)
+  pokemonStockHandler.removeFromPokemonStock(pokemon.id, quantity)
     .then(payment => processPurchase(pokemon, quantity, card, payment))
 
 module.exports = {

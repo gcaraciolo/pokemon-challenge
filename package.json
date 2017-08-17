@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jest --verbose --maxWorkers=1",
+    "test": "DB_NAME=pokemons_test mocha test --recursive",
     "docs": "apidoc -o docs/ -i src/"
   },
   "author": "Guilherme Caraciolo",
@@ -18,27 +18,25 @@
     "dotenv": "4.0.0",
     "express": "4.15.3",
     "express-validator": "3.2.1",
-    "joi": "10.6.0",
     "pagarme": "3.1.0",
     "pg": "6.1.0",
     "sequelize": "3.30.4",
-    "sequelize-cli": "2.7.0",
-    "supertest": "3.0.0"
+    "sequelize-cli": "2.7.0"
   },
   "devDependencies": {
     "apidoc": "0.17.6",
-    "jest": "20.0.4",
+    "chai": "4.1.1",
+    "chai-http": "3.0.0",
+    "mocha": "3.5.0",
     "standard": "10.0.2"
   },
-  "jest": {
-    "testEnvironment": "node"
-  },
   "standard": {
-    "globals": [
-      "jasmine"
-    ],
     "env": [
-      "jest"
+      "mocha",
+      "chai"
+    ],
+    "ignore": [
+      "docs/"
     ]
   }
 }
