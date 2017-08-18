@@ -4,7 +4,7 @@ const models = require('../../../src/database/models')
 const Payment = models.payments
 const Pokemon = models.pokemons
 
-describe('Payment', function () {
+describe('PaymentModel', function () {
   let payment
   let pokemon
 

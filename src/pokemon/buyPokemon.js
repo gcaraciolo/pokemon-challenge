@@ -1,8 +1,7 @@
 // TODO: file name very bad.
+const models = require('../database/models')
 const pagarmeClient = require('../utils/pagarmeClient')
 const pokemonStockHandler = require('./pokemonStockHandler')
-
-const models = require('../database/models')
 
 const Payment = models.payments
 
@@ -20,6 +19,7 @@ const doTransaction = (client, pokemon, quantity, cardHash) =>
 
 const handlePaymentError = (error, payment, status = 'fail') =>
   pokemonStockHandler.revertPokemonStock(payment, status)
+    .then(() => payment.abort())
     .then(() => {
       throw error
     })
@@ -46,6 +46,10 @@ const processPurchase = (pokemon, quantity, card, payment) =>
 
 const buy = (pokemon, quantity, card) =>
   pokemonStockHandler.removeFromPokemonStock(pokemon.id, quantity)
+    .then(() => Payment.create({
+      pokemon_id: pokemon.id,
+      quantity
+    }))
     .then(payment => processPurchase(pokemon, quantity, card, payment))
 
 module.exports = {

@@ -1,9 +1,10 @@
 const expect = require('chai').expect
 const models = require('../../../src/database/models')
+const InventoryError = require('../../../src/errors').InventoryError
 
 const Pokemon = models.pokemons
 
-describe('Stock', function () {
+describe('PokemonModel', function () {
   let pokemon
 
   beforeEach(function () {
@@ -22,6 +23,12 @@ describe('Stock', function () {
       return pokemon.decreaseStock(3).then(() => {
         expect(pokemon.stock).to.equal(2)
       })
+    })
+
+    it('should throw InventoryError', function () {
+      const fn = () => pokemon.decreaseStock(8)
+
+      expect(fn).to.throw(InventoryError)
     })
   })
 
