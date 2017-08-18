@@ -11,11 +11,9 @@ class PagarmeHelper {
       .client
       .connect({
         api_key: constants.PAGARME_API_KEY
+      }).then(client => {
+        this.client = client
       })
-  }
-
-  parseValue (value) {
-    return value * 100
   }
 }
 
