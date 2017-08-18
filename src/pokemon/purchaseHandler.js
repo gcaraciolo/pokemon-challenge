@@ -1,10 +1,30 @@
-const Promise = require('bluebird')
 const FinancialTransactionError = require('../errors/financialTransactionError')
 const StockHandler = require('./stockHandler')
 const FinancialTransactionHandler = require('./financialTransactionHandler')
 const models = require('../database/models')
 
 const Payment = models.payments
+
+function processTransaction () {
+  const financialTransactionHandler = new FinancialTransactionHandler()
+
+  return financialTransactionHandler.generateClient()
+    .then(() => {
+      return financialTransactionHandler.cryptCard(this.card)
+    })
+    .then(cryptedCard => {
+      const amout = Math.round(this.pokemon.price * this.quantity * 100)
+      return financialTransactionHandler.makeTransaction({
+        amount: amout,
+        card_hash: cryptedCard,
+        metadata: {
+          product: 'pokemon',
+          name: this.pokemon.name,
+          quantity: this.quantity
+        }
+      })
+    })
+}
 
 class PurchaseHandler {
   constructor (pokemon, card, quantity) {
@@ -16,7 +36,6 @@ class PurchaseHandler {
 
   coordinatePurchase () {
     const stockHandler = new StockHandler(this.pokemon.id)
-    const financialTransactionHandler = new FinancialTransactionHandler()
 
     return stockHandler.remove(this.quantity)
       .then(() => {
@@ -28,22 +47,7 @@ class PurchaseHandler {
         })
       })
       .then(() => {
-        return financialTransactionHandler.generateClient()
-          .then(() => {
-            return financialTransactionHandler.cryptCard(this.card)
-          })
-          .then(cryptedCard => {
-            const amout = Math.round(this.pokemon.price * this.quantity * 100)
-            return financialTransactionHandler.makeTransaction({
-              amount: amout,
-              card_hash: cryptedCard,
-              metadata: {
-                product: 'pokemon',
-                name: this.pokemon.name,
-                quantity: this.quantity
-              }
-            })
-          })
+        return processTransaction.bind(this)()
       })
       .then(transaction => {
         if (transaction.status !== 'paid') {
