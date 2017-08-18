@@ -25,7 +25,7 @@ describe('PokemonModel', function () {
       })
     })
 
-    it('should throw InventoryError', function () {
+    it('should throw InventoryError when quantity is greater than stock', function () {
       const fn = () => pokemon.decreaseStock(8)
 
       expect(fn).to.throw(InventoryError)

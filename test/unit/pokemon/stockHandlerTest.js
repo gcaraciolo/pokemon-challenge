@@ -18,8 +18,8 @@ describe('StockHandler', function () {
     return pokemon.destroy()
   })
 
-  describe('handle race condition', function () {
-    it('should remove from stock', function () {
+  describe('#remove()', function () {
+    it('should remove respecting race condition', function () {
       const stockHandler = new StockHandler(pokemon.id)
 
       return Promise.all([
@@ -30,8 +30,10 @@ describe('StockHandler', function () {
           expect(stock).to.equal(0)
         })
     })
+  })
 
-    it('should add to stock', function () {
+  describe('#add()', function () {
+    it('should add respecting race condition', function () {
       const stockHandler = new StockHandler(pokemon.id)
 
       return Promise.all([
