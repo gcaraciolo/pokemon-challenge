@@ -5,4 +5,3 @@ function dbClear () {
 }
 
 before(dbClear)
-after(dbClear)

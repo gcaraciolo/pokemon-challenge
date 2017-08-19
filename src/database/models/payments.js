@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       associate (models) {
         Payment.belongsTo(models.pokemons, {
           foreignKey: 'pokemon_id',
-          as: 'pokemon'
+          as: 'pokemon',
+          onDelete: 'cascade'
         })
       }
     },

@@ -17,6 +17,10 @@ describe('PurchaseHandler', function () {
       })
   })
 
+  afterEach(function () {
+    return pikachu.destroy()
+  })
+
   describe('#coordinatePurchase()', function () {
     it('should coordinate purchase', function () {
       const card = {
