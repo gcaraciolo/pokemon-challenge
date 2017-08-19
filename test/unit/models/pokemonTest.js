@@ -1,8 +1,12 @@
-const expect = require('chai').expect
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
 const models = require('../../../src/database/models')
 const InventoryError = require('../../../src/errors').InventoryError
 
+const expect = chai.expect
 const Pokemon = models.pokemons
+
+chai.use(chaiAsPromised)
 
 describe('PokemonModel', function () {
   let pokemon
@@ -21,21 +25,19 @@ describe('PokemonModel', function () {
   describe('#decreaseStock()', function () {
     it('should decrease stock', function () {
       return pokemon.decreaseStock(3).then(() => {
-        expect(pokemon.stock).to.equal(2)
+        return expect(pokemon.stock).to.equal(2)
       })
     })
 
     it('should throw InventoryError when quantity is greater than stock', function () {
-      const fn = () => pokemon.decreaseStock(8)
-
-      expect(fn).to.throw(InventoryError)
+      expect(pokemon.decreaseStock(8)).to.eventually.be.rejectedWith(InventoryError)
     })
   })
 
   describe('#increaseStock()', function () {
     it('should increase stock', function () {
       return pokemon.increaseStock(3).then(() => {
-        expect(pokemon.stock).to.equal(8)
+        return expect(pokemon.stock).to.equal(8)
       })
     })
   })

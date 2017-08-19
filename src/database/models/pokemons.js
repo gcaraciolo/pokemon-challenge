@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     instanceMethods: {
       decreaseStock (quantity) {
         if (this.stock < quantity) {
-          throw new InventoryError(this.name, this.stock)
+          return Promise.reject(new InventoryError(this.name, this.stock))
         }
 
         this.stock -= quantity

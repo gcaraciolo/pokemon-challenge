@@ -1,8 +1,13 @@
-const expect = require('chai').expect
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
 const models = require('../../../src/database/models')
 const StockHandler = require('../../../src/pokemon/stockHandler')
 
 const Pokemon = models.pokemons
+
+const expect = chai.expect
+
+chai.use(chaiAsPromised)
 
 describe('StockHandler', function () {
   let pokemon
@@ -18,31 +23,37 @@ describe('StockHandler', function () {
     return pokemon.destroy()
   })
 
-  describe('#remove()', function () {
-    it('should remove respecting race condition', function () {
-      const stockHandler = new StockHandler(pokemon.id)
+  context('called in a race condition', function () {
+    let stockHandler
 
-      return Promise.all([
-        stockHandler.remove(3),
-        stockHandler.remove(4)
-      ]).then(() => stockHandler.inStock())
-        .then((stock) => {
-          expect(stock).to.equal(0)
-        })
+    beforeEach(function () {
+      stockHandler = new StockHandler(pokemon.id)
     })
-  })
 
-  describe('#add()', function () {
-    it('should add respecting race condition', function () {
-      const stockHandler = new StockHandler(pokemon.id)
+    context('to increase stock', function () {
+      beforeEach(function () {
+        return Promise.all([
+          stockHandler.add(1),
+          stockHandler.add(2)
+        ])
+      })
 
-      return Promise.all([
-        stockHandler.add(1),
-        stockHandler.add(2)
-      ]).then(() => stockHandler.inStock())
-        .then((stock) => {
-          expect(stock).to.equal(10)
-        })
+      it('should add to stock', function () {
+        return expect(stockHandler.inStock()).to.eventually.be.equal(10)
+      })
+    })
+
+    context('to decrease stock', function () {
+      beforeEach(function () {
+        return Promise.all([
+          stockHandler.remove(3),
+          stockHandler.remove(4)
+        ])
+      })
+
+      it('should remove from stock', function () {
+        return expect(stockHandler.inStock()).to.eventually.be.equal(0)
+      })
     })
   })
 })

@@ -1,26 +1,21 @@
 class FinancialTransactionHandler {
+
   constructor (pagarmeHelper) {
     this.pagarmeHelper = pagarmeHelper
   }
 
-  generateClient () {
+  doTransaction (card, amount, metadata) {
     return this.pagarmeHelper.createClient()
-  }
-
-  getClient () {
-    return this.pagarmeHelper.client
-  }
-
-  cryptCard (card) {
-    return this.getClient()
-      .security
-      .encrypt(card)
-  }
-
-  makeTransaction (metadata) {
-    return this.getClient()
-      .transactions
-      .create(metadata)
+      .then(client => {
+        return client.security.encrypt(card)
+          .then(hash => {
+            return client.transactions.create({
+              amount: amount,
+              card_hash: hash,
+              metadata: metadata
+            })
+          })
+      })
   }
 }
 
