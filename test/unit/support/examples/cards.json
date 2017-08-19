@@ -1,0 +1,15 @@
+{
+  "valid": {
+    "card_number": "4024007138010896",
+    "card_expiration_date": "1050",
+    "card_holder_name": "Ash Ketchum",
+    "card_cvv": "123"
+  },
+
+  "invalid": {
+    "card_number": "4024007138010896",
+    "card_expiration_date": "1050",
+    "card_holder_name": "Ash Ketchum",
+    "card_cvv": "12"
+  }
+}

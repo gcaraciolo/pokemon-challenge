@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       associate () {
       },
-      getPokemonWithLockForUpdate: (pokemonId, t) =>
+      getWithLockForUpdate: (pokemonId, t) =>
         Pokemon
           .findOne({
             where: {
@@ -22,31 +22,21 @@ module.exports = (sequelize, DataTypes) => {
               level: t.LOCK.UPDATE,
               of: Payment
             }
-          }),
-      decreasePokemonStock: (pokemon, quantity) =>
-        Pokemon
-          .update({
-            stock: pokemon.stock - quantity
-          }, {
-            where: {
-              id: pokemon.id
-            }
-          }),
-      increasePokemonStock: (pokemon, quantity) =>
-        Pokemon
-          .update({
-            stock: pokemon.stock + quantity
-          }, {
-            where: {
-              id: pokemon.id
-            }
           })
     },
     instanceMethods: {
-      checkInventory (quantity) {
+      decreaseStock (quantity) {
         if (this.stock < quantity) {
-          throw new InventoryError(this.name, this.stock)
+          return Promise.reject(new InventoryError(this.name, this.stock))
         }
+
+        this.stock -= quantity
+        return this.save()
+      },
+
+      increaseStock (quantity) {
+        this.stock += quantity
+        return this.save()
       }
     }
   })

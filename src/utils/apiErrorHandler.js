@@ -17,7 +17,7 @@ const notFound = (req, res, next) => {
 }
 
 const serverError = (err, req, res, next) => {
-  console.log(err)
+  console.log(JSON.stringify(err, null, 2))
   res.status(500).send('Server error')
 }
 

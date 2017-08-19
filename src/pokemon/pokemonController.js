@@ -1,5 +1,5 @@
 const models = require('../database/models')
-const buyPokemon = require('./buyPokemon')
+const PurchaseHandler = require('./purchaseHandler')
 const errors = require('../errors')
 const InventoryError = errors.InventoryError
 const apiError = errors.apiError
@@ -46,11 +46,12 @@ const buy = (req, res, next) =>
         ))
       }
 
-      return buyPokemon
-        .buy(pokemon, req.body.quantity, card)
-        .then(transaction =>
+      const purchaseHandler = new PurchaseHandler(pokemon, card, req.body.quantity)
+
+      return purchaseHandler.coordinatePurchase()
+        .then(transaction => {
           res.send(transaction)
-        )
+        })
     })
     .catch(InventoryError, error =>
       res.status(400).json(apiError.controllerError(
