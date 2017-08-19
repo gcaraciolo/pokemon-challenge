@@ -1,12 +1,14 @@
 const FinancialTransactionError = require('../errors/financialTransactionError')
 const StockHandler = require('./stockHandler')
 const FinancialTransactionHandler = require('./financialTransactionHandler')
+const PagarmeHelper = require('../utils/pagarmeHelper')
 const models = require('../database/models')
 
 const Payment = models.payments
 
 function processTransaction () {
-  const financialTransactionHandler = new FinancialTransactionHandler()
+  const pagarmeHelper = new PagarmeHelper()
+  const financialTransactionHandler = new FinancialTransactionHandler(pagarmeHelper)
 
   return financialTransactionHandler.generateClient()
     .then(() => {

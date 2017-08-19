@@ -1,8 +1,6 @@
-const PagarmeHelper = require('../utils/pagarmeHelper')
-
 class FinancialTransactionHandler {
-  constructor () {
-    this.pagarmeHelper = new PagarmeHelper()
+  constructor (pagarmeHelper) {
+    this.pagarmeHelper = pagarmeHelper
   }
 
   generateClient () {

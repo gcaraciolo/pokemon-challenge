@@ -1,5 +1,6 @@
 const expect = require('chai').expect
 const FinancialTransactionHandler = require('../../../src/pokemon/financialTransactionHandler')
+const PagarmeHelper = require('../../../src/utils/pagarmeHelper')
 
 describe('FinancialTransactionHandler', function () {
   let financialTransactionHandler
@@ -11,7 +12,8 @@ describe('FinancialTransactionHandler', function () {
   }
 
   beforeEach(function () {
-    financialTransactionHandler = new FinancialTransactionHandler()
+    const pagarmeHelper = new PagarmeHelper()
+    financialTransactionHandler = new FinancialTransactionHandler(pagarmeHelper)
 
     return financialTransactionHandler.generateClient()
       .then(() => {
