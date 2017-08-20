@@ -1,7 +1,7 @@
 const FinancialTransactionError = require('../errors/FinancialTransactionError')
 const StockHandler = require('./stockHandler')
 const FinancialTransactionHandler = require('./financialTransactionHandler')
-const PagarmeHelper = require('../utils/pagarmeHelper')
+const pagarmeHelper = require('../utils/pagarmeHelper')
 const models = require('../database/models')
 
 const Payment = models.payments
@@ -30,7 +30,7 @@ class PurchaseHandler {
   }
 
   makePurchase () {
-    const ftHandler = new FinancialTransactionHandler(new PagarmeHelper())
+    const ftHandler = new FinancialTransactionHandler(pagarmeHelper)
     const amount = Math.round(this.pokemon.price * this.quantity * 100)
     const metadata = {
       product: 'pokemon',
