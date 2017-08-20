@@ -45,7 +45,7 @@ $ npm test
 ```
 or
 ```
-$ npm test:unit
+$ npm run test:unit
 ```
 
 ### Integration
