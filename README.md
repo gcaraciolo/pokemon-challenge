@@ -38,7 +38,7 @@ $ node index
 
 ## Test
 
-# Unit
+### Unit
 Test components
 ```
 $ npm test
@@ -48,7 +48,7 @@ or
 $ npm test:unit
 ```
 
-# Integration
+### Integration
 Test api
 ```
 $ npm run test:integration
