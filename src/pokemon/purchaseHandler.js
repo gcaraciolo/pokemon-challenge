@@ -1,4 +1,4 @@
-const FinancialTransactionError = require('../errors/FinancialTransactionError')
+const FinancialTransactionError = require('../errors').FinancialTransactionError
 const StockHandler = require('./stockHandler')
 const FinancialTransactionHandler = require('./financialTransactionHandler')
 const pagarmeHelper = require('../utils/pagarmeHelper')
