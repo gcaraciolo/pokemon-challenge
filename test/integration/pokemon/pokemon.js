@@ -129,7 +129,6 @@ context('/pokemons', function () {
             })
         })
       })
-
     })
   })
 

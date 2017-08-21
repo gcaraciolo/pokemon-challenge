@@ -6,16 +6,16 @@ const models = require('../database/models')
 
 const Payment = models.payments
 
-class PurchaseHandler {
-  constructor (pokemon, card, quantity) {
-    this.payment = undefined
-    this.pokemon = pokemon
-    this.card = card
-    this.quantity = quantity
+function PurchaseHandler (pokemon, card, quantity) {
+  this.payment = undefined
+  this.pokemon = pokemon
+  this.card = card
+  this.quantity = quantity
 
-    this.stockHandler = new StockHandler(pokemon.id)
-  }
+  this.stockHandler = new StockHandler(pokemon.id)
+}
 
+PurchaseHandler.prototype = {
   // TODO: open transaction
   preparePurchase () {
     return this.stockHandler.remove(this.quantity)
@@ -27,7 +27,7 @@ class PurchaseHandler {
           this.payment = payment
         })
       })
-  }
+  },
 
   makePurchase () {
     const ftHandler = new FinancialTransactionHandler(pagarmeHelper)
@@ -39,7 +39,7 @@ class PurchaseHandler {
     }
 
     return ftHandler.doTransaction(this.card, amount, metadata)
-  }
+  },
 
   finalizePurchase (transaction) {
     if (transaction.status !== 'paid') {
@@ -48,7 +48,7 @@ class PurchaseHandler {
     }
 
     return this.payment.confirm()
-  }
+  },
 
   // TODO: open transaction
   cancelPurchase () {

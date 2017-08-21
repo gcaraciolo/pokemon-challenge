@@ -1,9 +1,8 @@
-class FinancialTransactionHandler {
+function FinancialTransactionHandler (pagarmeHelper) {
+  this.pagarmeHelper = pagarmeHelper
+}
 
-  constructor (pagarmeHelper) {
-    this.pagarmeHelper = pagarmeHelper
-  }
-
+FinancialTransactionHandler.prototype = {
   doTransaction (card, amount, metadata) {
     return this.pagarmeHelper.createClient()
       .then(client => {
