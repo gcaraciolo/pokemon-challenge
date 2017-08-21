@@ -21,32 +21,30 @@ context('/pokemons', function () {
         stock: 12
       }
 
+      beforeEach(function () {
+        this.result = chai.request(app)
+          .post('/pokemons')
+          .send(pikachu)
+      })
+
       afterEach(function () {
         return Pokemon.sync({ force: true })
       })
 
       it('should return a pokemon', function () {
-        return chai.request(app)
-          .post('/pokemons')
-          .send(pikachu)
-          .then((res) => {
-            const response = JSON.parse(res.text)
+        return this.result.then((res) => {
+          const response = JSON.parse(res.text)
 
-            expect(response).to.contain.keys(pikachu)
-            expect(response).to.have.property('createdAt')
-            expect(response).to.have.property('updatedAt')
-          })
+          expect(response).to.contain.keys(pikachu)
+          expect(response).to.have.property('createdAt')
+          expect(response).to.have.property('updatedAt')
+        })
       })
 
       it('should return status 201', function () {
-        return chai.request(app)
-          .post('/pokemons')
-          .send(pikachu)
-          .then((res) => {
-            const response = JSON.parse(res.text)
-
-            expect(response).to.contain.keys(pikachu)
-          })
+        return this.result.then((res) => {
+          expect(res).to.have.status(201)
+        })
       })
     })
 
@@ -134,7 +132,7 @@ context('/pokemons', function () {
 
   describe('GET /', function () {
     context('with no-one pokemon registered', function () {
-      it('should return an emplty list', function () {
+      it('should return an empty list', function () {
         return chai.request(app)
           .get('/pokemons')
           .then((res) => {
