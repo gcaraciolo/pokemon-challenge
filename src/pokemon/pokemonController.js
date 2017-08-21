@@ -48,9 +48,11 @@ const buy = (req, res, next) =>
 
       const purchaseHandler = new PurchaseHandler(pokemon, card, req.body.quantity)
 
-      return purchaseHandler.coordinatePurchase()
+      return purchaseHandler.preparePurchase()
+        .then(() => purchaseHandler.makePurchase())
         .then(transaction => {
-          res.send(transaction)
+          return purchaseHandler.finalizePurchase(transaction)
+            .then(() => res.send(transaction))
         })
     })
     .catch(InventoryError, error =>

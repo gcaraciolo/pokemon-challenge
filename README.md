@@ -37,10 +37,21 @@ $ node index
 | SERVER_PORT | Api port | 3000 |
 
 ## Test
-* Tests must be run in a empty database.
 
+### Unit
+Test components
 ```
 $ npm test
+```
+or
+```
+$ npm run test:unit
+```
+
+### Integration
+Test api
+```
+$ npm run test:integration
 ```
 
 ## Generate API documentation

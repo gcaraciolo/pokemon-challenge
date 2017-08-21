@@ -1,7 +1,7 @@
-const FinancialTransactionError = require('../errors/financialTransactionError')
+const FinancialTransactionError = require('../errors').FinancialTransactionError
 const StockHandler = require('./stockHandler')
 const FinancialTransactionHandler = require('./financialTransactionHandler')
-const PagarmeHelper = require('../utils/pagarmeHelper')
+const pagarmeHelper = require('../utils/pagarmeHelper')
 const models = require('../database/models')
 
 const Payment = models.payments
@@ -30,13 +30,14 @@ class PurchaseHandler {
   }
 
   makePurchase () {
-    const ftHandler = new FinancialTransactionHandler(new PagarmeHelper())
+    const ftHandler = new FinancialTransactionHandler(pagarmeHelper)
     const amount = Math.round(this.pokemon.price * this.quantity * 100)
     const metadata = {
       product: 'pokemon',
       name: this.pokemon.name,
       quantity: this.quantity
     }
+
     return ftHandler.doTransaction(this.card, amount, metadata)
   }
 
@@ -47,7 +48,6 @@ class PurchaseHandler {
     }
 
     return this.payment.confirm()
-      .then(() => transaction)
   }
 
   // TODO: open transaction
@@ -56,12 +56,6 @@ class PurchaseHandler {
       .then(() => {
         return this.stockHandler.add(this.quantity)
       })
-  }
-
-  coordinatePurchase () {
-    return this.preparePurchase()
-      .then(() => this.makePurchase())
-      .then(transaction => this.finalizePurchase(transaction))
   }
 }
 

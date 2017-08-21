@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "DB_NAME=pokemons_test mocha test --recursive",
+    "test": "npm run test:unit",
+    "test:unit": "DB_NAME=pokemons_test mocha test/unit --recursive",
+    "test:integration": "SERVER_PORT=3001 DB_NAME=pokemons_test mocha test/integration --recursive",
     "docs": "apidoc -o docs/ -i src/"
   },
   "author": "Guilherme Caraciolo",
@@ -28,6 +30,7 @@
     "chai": "4.1.1",
     "chai-as-promised": "^7.1.1",
     "chai-http": "3.0.0",
+    "chai-subset": "^1.5.0",
     "mocha": "3.5.0",
     "standard": "10.0.2"
   },

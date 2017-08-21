@@ -41,13 +41,12 @@ pokemonRoutes.get('/', pokemonController.list)
  * @apiParam {Float} price
  * @apiParam {Int} stock
  *
- * @apiSuccess {Object[]} pokemons
- * @apiSuccess {Int} pokemons.id
- * @apiSuccess {String} pokemons.name
- * @apiSuccess {Float} pokemons.price
- * @apiSuccess {Int} pokemons.stock
- * @apiSuccess {Date} pokemons.createdAt
- * @apiSuccess {Date} pokemons.updatedAt
+ * @apiSuccess {Int} id
+ * @apiSuccess {String} name
+ * @apiSuccess {Float} price
+ * @apiSuccess {Int} stock
+ * @apiSuccess {Date} createdAt
+ * @apiSuccess {Date} updatedAt
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 201 OK
