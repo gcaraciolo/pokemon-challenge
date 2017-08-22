@@ -1,7 +1,6 @@
 const errors = require('../../errors')
 const NotFoundError = errors.NotFoundError
 
-// TODO: base class?
 function PokemonRepository (pokemonModel) {
   this.pokemonModel = pokemonModel
 }
