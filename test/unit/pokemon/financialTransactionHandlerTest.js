@@ -1,6 +1,6 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
-const FinancialTransactionHandler = require('../../../src/pokemon/financialTransactionHandler')
+const FinancialTransactionHandler = require('../../../src/pokemon-challenge/payment/financialTransactionHandler')
 const pagarmeHelper = require('../../../src/utils/pagarmeHelper')
 const cards = require('../support/examples/cards.json')
 

@@ -1,4 +1,4 @@
-require('dotenv').config({ path: `${__dirname}/.env` })
+require('dotenv').config({ path: `${__dirname}/../.env` })
 
 const parseBoolean = (v) => (v && v.toLowerCase() === 'true')
 

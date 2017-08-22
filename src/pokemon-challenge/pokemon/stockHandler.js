@@ -1,5 +1,5 @@
-const models = require('../../src/database/models')
-const transaction = require('../utils/transaction')
+const models = require('../../database/models')
+const transaction = require('../../utils/transaction')
 
 const Pokemon = models.pokemons
 

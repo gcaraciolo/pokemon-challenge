@@ -1,5 +1,5 @@
 const pagarme = require('pagarme')
-const constants = require('../../constants')
+const constants = require('../constants')
 
 const createClient = () =>
   pagarme

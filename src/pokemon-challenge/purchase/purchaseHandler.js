@@ -1,8 +1,8 @@
-const FinancialTransactionError = require('../errors').FinancialTransactionError
-const StockHandler = require('./stockHandler')
-const FinancialTransactionHandler = require('./financialTransactionHandler')
-const pagarmeHelper = require('../utils/pagarmeHelper')
-const models = require('../database/models')
+const FinancialTransactionError = require('../../errors').FinancialTransactionError
+const StockHandler = require('../pokemon/stockHandler')
+const FinancialTransactionHandler = require('../payment/financialTransactionHandler')
+const pagarmeHelper = require('../../utils/pagarmeHelper')
+const models = require('../../database/models')
 
 const Payment = models.payments
 

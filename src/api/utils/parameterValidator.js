@@ -1,3 +1,5 @@
+const parameterErrorFactory = require('./parameterErrorFactory')
+
 const parameterValidator = (validate) => {
   return (req, res, next) => {
     validate(req)
@@ -6,7 +8,7 @@ const parameterValidator = (validate) => {
         return next()
       }
 
-      req.paramErrors = result
+      req.errors = result.useFirstErrorOnly().array().map(parameterErrorFactory)
       next(new Error('invalid_parameter'))
     }).catch(next)
   }
