@@ -1,21 +1,11 @@
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
-const chaiSubset = require('chai-subset')
-
-const errors = require('../../../src/errors')
+const expect = require('../../chaiSettings').expect
 const models = require('../../../src/database/models')
 const cards = require('../support/examples/cards.json')
 const PurchaseService = require('../../../src/pokemon-challenge/purchase/purchaseService')
 const PokemonRepository = require('../../../src/pokemon-challenge/pokemon/pokemonRepository')
 
-const FinancialTransactionError = errors.FinancialTransactionError
-
-const expect = chai.expect
 const Pokemon = models.pokemons
 const Payment = models.payments
-
-chai.use(chaiAsPromised)
-chai.use(chaiSubset)
 
 describe('PurchaseService', function () {
   let purchaseService

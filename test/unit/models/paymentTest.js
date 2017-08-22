@@ -1,4 +1,4 @@
-const expect = require('chai').expect
+const expect = require('../../chaiSettings').expect
 const models = require('../../../src/database/models')
 
 const Payment = models.payments

@@ -1,12 +1,7 @@
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
+const expect = require('../../chaiSettings').expect
 const FinancialTransactionHandler = require('../../../src/pokemon-challenge/payment/financialTransactionHandler')
 const pagarmeHelper = require('../../../src/utils/pagarmeHelper')
 const cards = require('../support/examples/cards.json')
-
-const expect = chai.expect
-
-chai.use(chaiAsPromised)
 
 describe('FinancialTransactionHandler', function () {
   describe('should buy a product with success', function () {

@@ -1,14 +1,10 @@
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
+const expect = require('../../chaiSettings').expect
 const models = require('../../../src/database/models')
 const StockHandler = require('../../../src/pokemon-challenge/pokemon/stockHandler')
 const transactionHelper = require('../../../src/utils/transactionHelper')
+const PokemonRepository = require('../../../src/pokemon-challenge/pokemon/pokemonRepository')
 
 const Pokemon = models.pokemons
-
-const expect = chai.expect
-
-chai.use(chaiAsPromised)
 
 describe('StockHandler', function () {
   let pokemon
@@ -26,7 +22,7 @@ describe('StockHandler', function () {
   })
 
   beforeEach(function () {
-    stockHandler = new StockHandler(pokemon.id)
+    stockHandler = new StockHandler(pokemon.id, new PokemonRepository(models.pokemons))
   })
 
   context('when call #add()', function () {

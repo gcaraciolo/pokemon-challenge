@@ -1,12 +1,8 @@
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
+const expect = require('../../chaiSettings').expect
 const models = require('../../../src/database/models')
 const InventoryError = require('../../../src/errors').InventoryError
 
-const expect = chai.expect
 const Pokemon = models.pokemons
-
-chai.use(chaiAsPromised)
 
 describe('PokemonModel', function () {
   let pokemon

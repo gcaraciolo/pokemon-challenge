@@ -1,9 +1,6 @@
-const models = require('../../database/models')
-const PokemonRepository = require('./pokemonRepository')
-
-function StockHandler (pokemonId) {
+function StockHandler (pokemonId, pokemonRepository) {
   this.pokemonId = pokemonId
-  this.pokemonRepository = new PokemonRepository(models.pokemons, models.payments)
+  this.pokemonRepository = pokemonRepository
 }
 
 StockHandler.prototype = {

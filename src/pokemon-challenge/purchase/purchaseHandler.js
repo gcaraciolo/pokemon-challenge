@@ -1,17 +1,20 @@
-const FinancialTransactionError = require('../../errors').FinancialTransactionError
+const errors = require('../../errors')
+const models = require('../../database/models')
 const StockHandler = require('../pokemon/stockHandler')
 const FinancialTransactionHandler = require('../payment/financialTransactionHandler')
-const pagarmeHelper = require('../../utils/pagarmeHelper')
 const PaymentRepository = require('../payment/paymentRepository')
+const PokemonRepository = require('../pokemon/pokemonRepository')
+const pagarmeHelper = require('../../utils/pagarmeHelper')
 const transactionHelper = require('../../utils/transactionHelper')
-const models = require('../../database/models')
+
+const FinancialTransactionError = errors.FinancialTransactionError
 
 function PurchaseHandler (pokemon, quantity) {
   this.pokemon = pokemon
   this.quantity = quantity
 
-  this.stockHandler = new StockHandler(pokemon.id)
   this.paymentRepository = new PaymentRepository(models.payments)
+  this.stockHandler = new StockHandler(pokemon.id, new PokemonRepository(models.pokemons))
 }
 
 PurchaseHandler.prototype = {
