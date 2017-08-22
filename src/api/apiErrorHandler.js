@@ -1,15 +1,9 @@
-const apiError = require('../errors').apiError
-
 const invalidParameter = (err, req, res, next) => {
   if (err.message !== 'invalid_parameter') {
     return next(err)
   }
 
-  const response = apiError.parameterError(
-    req.paramErrors.useFirstErrorOnly().array()
-  )
-
-  res.status(400).json(response)
+  res.status(400).json({ errors: req.errors })
 }
 
 const notFound = (req, res, next) => {
@@ -17,7 +11,12 @@ const notFound = (req, res, next) => {
 }
 
 const serverError = (err, req, res, next) => {
-  console.log(JSON.stringify(err, null, 2))
+  if (err instanceof Error) {
+    console.log(err)
+  } else {
+    console.log(JSON.stringify(err, null, 2))
+  }
+
   res.status(500).send('Server error')
 }
 

@@ -1,6 +1,8 @@
-const pokemonRoutes = require('express').Router()
-const pokemonController = require('./pokemonController')
+const express = require('express')
 const parameterValidator = require('../utils/parameterValidator')
+const pokemonController = require('./pokemonController')
+
+const pokemonRoutes = express.Router()
 
 /**
  * @apiVersion 1.0.1

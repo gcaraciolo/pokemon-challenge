@@ -1,6 +1,6 @@
 class FinancialTransactionError extends Error {
   constructor (transaction) {
-    super('transaction error')
+    super()
     this.name = 'FinancialTransactionError'
     this.transaction = transaction
   }

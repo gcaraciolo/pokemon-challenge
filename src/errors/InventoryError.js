@@ -1,9 +1,9 @@
 class InventoryError extends Error {
   constructor (pokemoName, pokemonStock) {
-    const msg = `Not enough ${pokemoName} in stock: ${pokemonStock}`
-    super(msg)
+    super()
+    const message = `Not enough ${pokemoName} in stock: ${pokemonStock}`
     this.name = 'InventoryError'
-    this.message = msg
+    this.message = message
   }
 }
 

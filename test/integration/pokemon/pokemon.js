@@ -2,7 +2,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const chaiSubset = require('chai-subset')
 
-const models = require('../../../src/database/models/index')
+const models = require('../../../src/database/models')
 const expect = chai.expect
 const Pokemon = models.pokemons
 const Payment = models.payments

@@ -1,7 +1,7 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
 const models = require('../../../src/database/models')
-const StockHandler = require('../../../src/pokemon/stockHandler')
+const StockHandler = require('../../../src/pokemon-challenge/pokemon/stockHandler')
 
 const Pokemon = models.pokemons
 
