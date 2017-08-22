@@ -7,5 +7,5 @@ module.exports = {
   ApiError,
   InventoryError,
   FinancialTransactionError,
-  NotFoundError,
+  NotFoundError
 }
