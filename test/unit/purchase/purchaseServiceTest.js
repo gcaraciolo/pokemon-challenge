@@ -35,10 +35,10 @@ describe('PurchaseService', function () {
   })
 
   context('called with an invalid credit card', function () {
-    it('should return a FinancialTransactionError', function () {
+    it('should be rejected', function () {
       const result = purchaseService.purchase({ name: 'pikachu', quantity: 1 }, cards.invalid)
 
-      return expect(result).to.eventually.rejectedWith(FinancialTransactionError)
+      return expect(result).to.eventually.rejected
     })
   })
 

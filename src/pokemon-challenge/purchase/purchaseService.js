@@ -8,13 +8,15 @@ PurchaseService.prototype = {
   purchase ({ name, quantity }, card) {
     return this.pokemonRepository.getByName(name)
       .then((pokemon) => {
-        const purchaseHandler = new PurchaseHandler(pokemon, card, quantity)
+        const purchaseHandler = new PurchaseHandler(pokemon, quantity)
 
         return purchaseHandler.preparePurchase()
-          .then(() => purchaseHandler.makePurchase())
-          .then(transaction => {
-            return purchaseHandler.finalizePurchase(transaction)
-              .then(() => transaction)
+          .then((payment) => {
+            return purchaseHandler.makePurchase(card)
+              .then(transaction => {
+                return purchaseHandler.finalizePurchase(payment, transaction)
+                  .then(() => transaction)
+              })
           })
       })
   }
