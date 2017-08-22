@@ -1,19 +1,11 @@
 const PurchaseHandler = require('./purchaseHandler')
 
-// mock card
-const card = {
-  card_number: '4024007138010896',
-  card_expiration_date: '1050',
-  card_holder_name: 'Ash Ketchum',
-  card_cvv: '123'
-}
-
 function PurchaseService (pokemonRepository) {
   this.pokemonRepository = pokemonRepository
 }
 
 PurchaseService.prototype = {
-  purchase ({ name, quantity }) {
+  purchase ({ name, quantity }, card) {
     return this.pokemonRepository.getByName(name)
       .then((pokemon) => {
         const purchaseHandler = new PurchaseHandler(pokemon, card, quantity)

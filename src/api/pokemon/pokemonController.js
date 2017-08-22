@@ -9,6 +9,14 @@ const PokemonRepository = require('../../pokemon-challenge/pokemon/pokemonReposi
 const pokemonRepository = new PokemonRepository(models.pokemons)
 const purchaseService = new PurchaseService(pokemonRepository)
 
+// mock card
+const card = {
+  card_number: '4024007138010896',
+  card_expiration_date: '1050',
+  card_holder_name: 'Ash Ketchum',
+  card_cvv: '123'
+}
+
 const PokemonController = {
   list (req, res, next) {
     return pokemonRepository.list()
@@ -23,7 +31,7 @@ const PokemonController = {
 }
 
 PokemonController.buy = function (req, res, next) {
-  return purchaseService.purchase(req.body)
+  return purchaseService.purchase(req.body, card)
     .then((transaction) => {
       return res.status(200).json(transaction)
     })

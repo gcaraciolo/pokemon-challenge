@@ -9,7 +9,7 @@ function StockHandler (pokemonId) {
 StockHandler.prototype = {
   inStock () {
     return this.pokemonRepository.getById(this.pokemonId)
-      .then(pokemon => pokemon => pokemon.stock)
+      .then(pokemon => pokemon.stock)
   },
 
   add (quantity, transaction) {

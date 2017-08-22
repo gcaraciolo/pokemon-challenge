@@ -1,6 +1,13 @@
 const errors = require('../../errors')
 const NotFoundError = errors.NotFoundError
 
+const checkExists = (data) => {
+  return (entity) => {
+    if (!entity) throw new NotFoundError(`${data} not found`)
+    return entity
+  }
+}
+
 function PokemonRepository (pokemonModel) {
   this.pokemonModel = pokemonModel
 }
@@ -8,10 +15,7 @@ function PokemonRepository (pokemonModel) {
 PokemonRepository.prototype = {
   getById (id) {
     return this.pokemonModel.findById(id)
-      .then(pokemon => {
-        if (!pokemon) throw new NotFoundError(`${id} not found`)
-        return pokemon
-      })
+      .then(checkExists(id))
   },
   list () {
     return this.pokemonModel.findAll()
@@ -41,10 +45,7 @@ PokemonRepository.prototype.getByName = function (name) {
     where: {
       name
     }
-  }).then(pokemon => {
-    if (!pokemon) throw new NotFoundError(`${name} not found`)
-    return pokemon
-  })
+  }).then(checkExists(name))
 }
 
 module.exports = PokemonRepository
