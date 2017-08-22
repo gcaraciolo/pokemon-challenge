@@ -22,7 +22,9 @@ fs
     models[model.name] = model
     return model
   })
-  .forEach(model => model.associate(models))
+  .forEach(model => {
+    if (model.associate) model.associate(models)
+  })
 
 module.exports = models
 module.exports.sequelize = sequelize

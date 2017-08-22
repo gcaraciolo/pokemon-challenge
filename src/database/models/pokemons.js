@@ -10,8 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     stock: DataTypes.INTEGER
   }, {
     classMethods: {
-      associate () {
-      },
       getWithLockForUpdate: (pokemonId, t) =>
         Pokemon
           .findOne({
