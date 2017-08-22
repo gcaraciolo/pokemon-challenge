@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node index",
     "test": "npm run test:unit",
-    "test:unit": "DB_NAME=pokemons_test mocha test/unit --recursive --bail",
-    "test:integration": "SERVER_PORT=3001 DB_NAME=pokemons_test mocha test/integration --recursive --bail",
-    "test:full": "SERVER_PORT=3001 DB_NAME=pokemons_test mocha test --recursive --bail",
+    "test:unit": "DB_NAME=pokemons_test mocha test/unit",
+    "test:integration": "SERVER_PORT=3001 DB_NAME=pokemons_test mocha test/integration",
+    "test:full": "SERVER_PORT=3001 DB_NAME=pokemons_test mocha test",
     "docs": "apidoc -o docs/ -i src/"
   },
   "author": "Guilherme Caraciolo",
