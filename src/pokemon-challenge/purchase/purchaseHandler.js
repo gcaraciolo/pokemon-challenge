@@ -2,9 +2,9 @@ const FinancialTransactionError = require('../../errors').FinancialTransactionEr
 const StockHandler = require('../pokemon/stockHandler')
 const FinancialTransactionHandler = require('../payment/financialTransactionHandler')
 const pagarmeHelper = require('../../utils/pagarmeHelper')
+const PaymentRepository = require('../payment/paymentRepository')
+const transactionHelper = require('../../utils/transactionHelper')
 const models = require('../../database/models')
-
-const Payment = models.payments
 
 function PurchaseHandler (pokemon, card, quantity) {
   this.payment = undefined
@@ -13,20 +13,22 @@ function PurchaseHandler (pokemon, card, quantity) {
   this.quantity = quantity
 
   this.stockHandler = new StockHandler(pokemon.id)
+  this.paymentRepository = new PaymentRepository(models.payments)
 }
 
 PurchaseHandler.prototype = {
-  // TODO: open transaction
   preparePurchase () {
-    return this.stockHandler.remove(this.quantity)
-      .then(() => {
-        return Payment.create({
-          pokemon_id: this.pokemon.id,
-          quantity: this.quantity
-        }).then(payment => {
-          this.payment = payment
+    return transactionHelper.openReadCommitted((transaction) => {
+      return this.stockHandler.remove(this.quantity, transaction)
+        .then(() => {
+          return this.paymentRepository.create({
+            pokemon_id: this.pokemon.id,
+            quantity: this.quantity
+          }).then(payment => {
+            this.payment = payment
+          })
         })
-      })
+    })
   },
 
   makePurchase () {
@@ -50,12 +52,13 @@ PurchaseHandler.prototype = {
     return this.payment.confirm()
   },
 
-  // TODO: open transaction
   cancelPurchase () {
-    return this.payment.abort()
-      .then(() => {
-        return this.stockHandler.add(this.quantity)
-      })
+    return transactionHelper.openReadCommitted((transaction) => {
+      return this.payment.abort()
+        .then(() => {
+          return this.stockHandler.add(this.quantity, transaction)
+        })
+    })
   }
 }
 

@@ -1,7 +1,4 @@
 const InventoryError = require('../../errors').InventoryError
-const models = require('./')
-
-const Payment = models.payments
 
 module.exports = (sequelize, DataTypes) => {
   const Pokemon = sequelize.define('pokemons', {
@@ -9,19 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.FLOAT,
     stock: DataTypes.INTEGER
   }, {
-    classMethods: {
-      getWithLockForUpdate: (pokemonId, t) =>
-        Pokemon
-          .findOne({
-            where: {
-              id: pokemonId
-            },
-            lock: {
-              level: t.LOCK.UPDATE,
-              of: Payment
-            }
-          })
-    },
     instanceMethods: {
       decreaseStock (quantity) {
         if (this.stock < quantity) {

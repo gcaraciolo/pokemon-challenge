@@ -300,7 +300,8 @@ context('/pokemons', function () {
             .then(res => {
               expect(res).to.have.status(200)
               expect(res.body).to.contains.keys({
-                status: 'paid'
+                status: 'paid',
+                object: 'transaction'
               })
             })
         })

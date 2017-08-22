@@ -22,6 +22,7 @@ PurchaseService.prototype = {
           .then(() => purchaseHandler.makePurchase())
           .then(transaction => {
             return purchaseHandler.finalizePurchase(transaction)
+              .then(() => transaction)
           })
       })
   }
