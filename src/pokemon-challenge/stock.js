@@ -4,7 +4,7 @@ function StockHandler (pokemonId, pokemonRepository) {
 }
 
 StockHandler.prototype = {
-  inStock () {
+  quantity () {
     return this.pokemonRepository.getById(this.pokemonId)
       .then(pokemon => pokemon.stock)
   },

@@ -1,4 +1,4 @@
-const errors = require('../../errors')
+const errors = require('../errors')
 const NotFoundError = errors.NotFoundError
 
 const checkExists = (data) => {

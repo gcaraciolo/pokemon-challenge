@@ -1,4 +1,4 @@
-const PurchaseHandler = require('./purchaseHandler')
+const Purchase = require('./purchase')
 
 function PurchaseService (pokemonRepository) {
   this.pokemonRepository = pokemonRepository
@@ -8,13 +8,13 @@ PurchaseService.prototype = {
   purchase ({ name, quantity }, card) {
     return this.pokemonRepository.getByName(name)
       .then((pokemon) => {
-        const purchaseHandler = new PurchaseHandler(pokemon, quantity)
+        const purchase = new Purchase(pokemon, quantity)
 
-        return purchaseHandler.preparePurchase()
+        return purchase.prepare()
           .then((payment) => {
-            return purchaseHandler.makePurchase(card)
+            return purchase.make(card)
               .then(transaction => {
-                return purchaseHandler.finalizePurchase(payment, transaction)
+                return purchase.finalize(payment, transaction)
                   .then(() => transaction)
               })
           })
