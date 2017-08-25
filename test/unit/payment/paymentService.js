@@ -1,18 +1,18 @@
 const expect = require('../../chaiSettings').expect
-const FinancialTransactionHandler = require('../../../src/pokemon-challenge/financialTransactionHandler')
+const PaymentService = require('../../../src/pokemon-challenge/paymentService')
 const pagarmeHelper = require('../../../src/utils/pagarmeHelper')
 const cards = require('../support/examples/cards.json')
 
-describe('FinancialTransactionHandler', function () {
+describe('PaymentService', function () {
   describe('should buy a product with success', function () {
-    const ftHandler = new FinancialTransactionHandler(pagarmeHelper)
+    const paymentService = new PaymentService(pagarmeHelper)
     const productMetadata = {
       product: 'pokemon',
       name: 'pikachu',
       quantity: 2
     }
 
-    return expect(ftHandler.doTransaction(cards.valid, 1245, productMetadata))
+    return expect(paymentService.charge(cards.valid, 1245, productMetadata))
       .to.eventually.be.an('object')
   })
 })

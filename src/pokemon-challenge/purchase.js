@@ -1,7 +1,7 @@
 const errors = require('../errors')
 const models = require('../database/models')
 const Stock = require('./stock')
-const FinancialTransactionHandler = require('./financialTransactionHandler')
+const PaymentService = require('./paymentService')
 const PaymentRepository = require('./paymentRepository')
 const PokemonRepository = require('./pokemonRepository')
 const pagarmeHelper = require('../utils/pagarmeHelper')
@@ -31,7 +31,7 @@ PurchaseHandler.prototype = {
   },
 
   make (card) {
-    const ftHandler = new FinancialTransactionHandler(pagarmeHelper)
+    const paymentService = new PaymentService(pagarmeHelper)
     const amount = Math.round(this.pokemon.price * this.quantity * 100)
     const metadata = {
       product: 'pokemon',
@@ -39,7 +39,7 @@ PurchaseHandler.prototype = {
       quantity: this.quantity
     }
 
-    return ftHandler.doTransaction(card, amount, metadata)
+    return paymentService.charge(card, amount, metadata)
   },
 
   finalize (payment, transaction) {
