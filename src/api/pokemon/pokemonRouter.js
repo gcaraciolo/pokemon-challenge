@@ -73,7 +73,7 @@ pokemonRoutes.post('/',
 
 /**
  * @apiVersion 1.0.1
- * @api {post} /pokemons Buy pokemon
+ * @api {post} /pokemons/buy   Buy pokemon
  * @apiName PostBuyPokemon
  * @apiGroup Pokemons
  *
