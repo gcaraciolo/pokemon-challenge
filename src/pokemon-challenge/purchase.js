@@ -9,7 +9,7 @@ const transactionHelper = require('../utils/transactionHelper')
 
 const FinancialTransactionError = errors.FinancialTransactionError
 
-function PurchaseHandler (pokemon, quantity) {
+function Purchase (pokemon, quantity) {
   this.pokemon = pokemon
   this.quantity = quantity
 
@@ -17,7 +17,7 @@ function PurchaseHandler (pokemon, quantity) {
   this.stock = new Stock(pokemon.id, new PokemonRepository(models.pokemons))
 }
 
-PurchaseHandler.prototype = {
+Purchase.prototype = {
   prepare () {
     return transactionHelper.openReadCommitted((transaction) => {
       return this.stock.remove(this.quantity, transaction)
@@ -61,4 +61,4 @@ PurchaseHandler.prototype = {
   }
 }
 
-module.exports = PurchaseHandler
+module.exports = Purchase
