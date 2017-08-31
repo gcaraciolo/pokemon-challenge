@@ -1,4 +1,4 @@
-const InventoryError = require('../../errors').InventoryError
+const { InventoryError } = require('../../errors')
 
 module.exports = (sequelize, DataTypes) => {
   const Pokemon = sequelize.define('pokemons', {

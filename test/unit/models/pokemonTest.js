@@ -1,6 +1,6 @@
 const expect = require('../../chaiSettings').expect
 const models = require('../../../src/database/models')
-const InventoryError = require('../../../src/errors').InventoryError
+const { InventoryError } = require('../../../src/errors')
 
 const Pokemon = models.pokemons
 

@@ -1,10 +1,11 @@
 const models = require('../../database/models')
 const PurchaseService = require('../../pokemon-challenge/purchaseService')
-const errors = require('../../errors')
-const InventoryError = errors.InventoryError
-const NotFoundError = errors.NotFoundError
-const ApiError = errors.ApiError
 const PokemonRepository = require('../../pokemon-challenge/pokemonRepository')
+const {
+  InventoryError,
+  NotFoundError,
+  ApiError
+} = require('../../errors')
 
 const pokemonRepository = new PokemonRepository(models.pokemons)
 const purchaseService = new PurchaseService(pokemonRepository)
