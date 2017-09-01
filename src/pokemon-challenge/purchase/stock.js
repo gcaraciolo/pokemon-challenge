@@ -1,4 +1,4 @@
-const Pokemon = require('../database/models').pokemon
+const Pokemon = require('../../database/models/index').pokemon
 
 function Stock (pokemonId) {
   this.pokemonId = pokemonId

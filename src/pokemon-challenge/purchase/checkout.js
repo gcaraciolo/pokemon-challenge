@@ -1,4 +1,4 @@
-const { FinancialTransactionError } = require('../errors')
+const { FinancialTransactionError } = require('../../errors/index')
 const Order = require('./order')
 const Invoice = require('./invoice')
 const PagarmeService = require('./pagarmeService')

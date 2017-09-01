@@ -1,6 +1,6 @@
 const Stock = require('./stock')
-const transactionHelper = require('../utils/transactionHelper')
-const Payment = require('../database/models').payment
+const transactionHelper = require('../../utils/transactionHelper')
+const Payment = require('../../database/models/index').payment
 
 function Order (invoice) {
   this.invoice = invoice

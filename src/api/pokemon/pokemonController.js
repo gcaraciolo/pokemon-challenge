@@ -1,4 +1,4 @@
-const Checkout = require('../../pokemon-challenge/checkout')
+const Checkout = require('../../pokemon-challenge/purchase/checkout')
 const Pokemon = require('../../database/models').pokemon
 const {
   InventoryError,

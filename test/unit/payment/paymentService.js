@@ -1,5 +1,5 @@
 const expect = require('../../chaiSettings').expect
-const PaymentService = require('../../../src/pokemon-challenge/pagarmeService')
+const PaymentService = require('../../../src/pokemon-challenge/purchase/pagarmeService')
 const pagarmeHelper = require('../../../src/utils/pagarmeHelper')
 const cards = require('../support/examples/cards.json')
 
