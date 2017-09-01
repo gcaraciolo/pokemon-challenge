@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'payments',
     classMethods: {
       associate (models) {
-        Payment.belongsTo(models.pokemons, {
+        Payment.belongsTo(models.pokemon, {
           foreignKey: 'pokemon_id',
           as: 'pokemon',
           onDelete: 'cascade'
