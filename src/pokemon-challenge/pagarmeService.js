@@ -1,13 +1,14 @@
-const pagarmeHelper = require('../utils/pagarmeHelper')
+const pagarme = require('pagarme')
+const constants = require('../constants')
 
 function PagarmeService () { }
 
 PagarmeService.prototype = {
   doTransaction (card, invoice) {
-    return pagarmeHelper.createClient().then(client => {
+    return createClient().then(client => {
       return client.security.encrypt(card).then(hash => {
         return client.transactions.create({
-          amount: pagarmeHelper.parseAmount(invoice.amount()),
+          amount: parseAmount(invoice.amount()),
           card_hash: hash,
           metadata: invoice.metadata()
         })
@@ -15,5 +16,12 @@ PagarmeService.prototype = {
     })
   }
 }
+
+const createClient = () =>
+  pagarme.client.connect({
+    api_key: constants.PAGARME_API_KEY
+  })
+
+const parseAmount = (amount) => Math.round(amount * 100)
 
 module.exports = PagarmeService
