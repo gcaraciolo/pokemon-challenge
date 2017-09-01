@@ -1,27 +1,32 @@
-const Stock = require('./stock')
-const transactionHelper = require('../utils/transactionHelper')
-const Payment = require('../database/models').payment
+const { FinancialTransactionError } = require('../errors')
+const Order = require('./order')
+const Invoice = require('./invoice')
+const PagarmeService = require('./pagarmeService')
 
-function Checkout (invoice) {
-  this.invoice = invoice
-  this.stock = new Stock(invoice.pokemon.id)
+const paymentService = new PagarmeService()
+
+function Checkout (pokemon, quantity) {
+  this.invoice = new Invoice(pokemon, quantity)
+  this.order = new Order(this.invoice)
 }
 
 Checkout.prototype = {
-  dispatch () {
-    return transactionHelper.openReadCommitted((transaction) => {
-      return this.stock.remove(this.invoice.quantity, transaction).then(() => {
-        return Payment.createWithinTransaction(this.invoice.pokemon.id, this.invoice.quantity, transaction)
-      })
-    })
+  pay (card) {
+    return this.order.dispatch().then((payment) =>
+      paymentService.doTransaction(card, this.invoice).then(transaction =>
+        this.writeOffPayment(transaction, payment).then(() => transaction)
+      )
+    )
   },
 
-  abort (payment) {
-    return transactionHelper.openReadCommitted((transaction) => {
-      return Payment.setFailedWithinTransaction(payment.id, transaction).then(() => {
-        return this.stock.add(this.invoice.quantity, transaction)
-      })
-    })
+  writeOffPayment (transaction, payment) {
+    if (paymentService.didFail(transaction)) {
+      return this.order.abort(payment).then(() =>
+        Promise.reject(new FinancialTransactionError(transaction))
+      )
+    }
+
+    return this.order.confirm(payment)
   }
 }
 

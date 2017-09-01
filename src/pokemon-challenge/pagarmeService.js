@@ -14,6 +14,10 @@ PagarmeService.prototype = {
         })
       })
     })
+  },
+
+  didFail (transaction) {
+    return transaction.status !== 'paid'
   }
 }
 

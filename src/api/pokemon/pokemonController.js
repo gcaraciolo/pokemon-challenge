@@ -1,4 +1,4 @@
-const Controller = require('../../pokemon-challenge/controller')
+const Checkout = require('../../pokemon-challenge/checkout')
 const Pokemon = require('../../database/models').pokemon
 const {
   InventoryError,
@@ -28,9 +28,9 @@ const PokemonController = {
 
 PokemonController.buy = function (req, res, next) {
   return Pokemon.getByName(req.body.name).then(pokemon => {
-    const controller = new Controller(pokemon, req.body.quantity)
+    const checkout = new Checkout(pokemon, req.body.quantity)
 
-    return controller.execute(card)
+    return checkout.pay(card)
   }).then((transaction) =>
     res.status(200).json(transaction)
   ).catch(NotFoundError, error =>
