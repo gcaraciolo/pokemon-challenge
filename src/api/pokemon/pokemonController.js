@@ -1,5 +1,5 @@
 const Checkout = require('../../pokemon-challenge/purchase/checkout')
-const Pokemon = require('../../database/models').pokemon
+const { Pokemon } = require('../../database/models')
 const {
   InventoryError,
   NotFoundError,

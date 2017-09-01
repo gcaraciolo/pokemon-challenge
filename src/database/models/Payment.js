@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Payment = sequelize.define('payment', {
+  const Payment = sequelize.define('Payment', {
     status: {
       type: DataTypes.STRING,
       defaultValue: 'processing'

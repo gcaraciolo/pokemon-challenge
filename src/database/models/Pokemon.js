@@ -9,7 +9,7 @@ const checkExists = (data) => {
 }
 
 module.exports = (sequelize, DataTypes) => {
-  const Pokemon = sequelize.define('pokemon', {
+  const Pokemon = sequelize.define('Pokemon', {
     name: DataTypes.STRING,
     price: DataTypes.FLOAT,
     stock: DataTypes.INTEGER
