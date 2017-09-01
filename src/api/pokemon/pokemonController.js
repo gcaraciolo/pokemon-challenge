@@ -27,7 +27,7 @@ const PokemonController = {
 }
 
 PokemonController.buy = function (req, res, next) {
-  return Pokemon.getByName(req.body.name).then(pokemon => {
+  return Pokemon.getByName(req.body.name).then((pokemon) => {
     const checkout = new Checkout(pokemon, req.body.quantity)
 
     return checkout.pay(card)
