@@ -2,8 +2,8 @@ const expect = require('../../chaiSettings').expect
 const chai = require('../../chaiSettings').chai
 
 const models = require('../../../src/database/models')
-const Pokemon = models.pokemons
-const Payment = models.payments
+const Pokemon = models.pokemon
+const Payment = models.payment
 
 // TODO: refactoring
 

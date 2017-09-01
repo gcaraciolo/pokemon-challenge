@@ -1,19 +1,18 @@
-const PokemonRepository = require('./pokemonRepository')
+const Pokemon = require('../database/models').pokemon
 
 function StockHandler (pokemonId) {
   this.pokemonId = pokemonId
-  this.pokemonRepository = new PokemonRepository()
 }
 
 StockHandler.prototype = {
   add (quantity, transaction) {
-    return this.pokemonRepository.getByIdWithLockForUpdate(this.pokemonId, transaction)
+    return Pokemon.getByIdWithLock(this.pokemonId, transaction)
       .then((pokemon) => pokemon.increaseStock(quantity)
     )
   },
 
   remove (quantity, transaction) {
-    return this.pokemonRepository.getByIdWithLockForUpdate(this.pokemonId, transaction)
+    return Pokemon.getByIdWithLock(this.pokemonId, transaction)
         .then((pokemon) => pokemon.decreaseStock(quantity))
   }
 }

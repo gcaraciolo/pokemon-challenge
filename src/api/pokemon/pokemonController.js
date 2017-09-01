@@ -1,11 +1,9 @@
 const Controller = require('../../pokemon-challenge/controller')
-const PokemonRepository = require('../../pokemon-challenge/pokemonRepository')
+const Pokemon = require('../../database/models').pokemon
 const {
   InventoryError,
   NotFoundError,
   ApiError } = require('../../errors')
-
-const pokemonRepository = new PokemonRepository()
 
 // mock card
 const card = {
@@ -17,19 +15,19 @@ const card = {
 
 const PokemonController = {
   list (req, res, next) {
-    return pokemonRepository.list().then((pokemons) =>
+    return Pokemon.findAll().then((pokemons) =>
       res.status(200).send(pokemons)
     ).catch(next)
   },
   create (req, res, next) {
-    return pokemonRepository.create(req.body).then((pokemon) =>
+    return Pokemon.create(req.body).then((pokemon) =>
       res.status(201).json(pokemon)
     ).catch(next)
   }
 }
 
 PokemonController.buy = function (req, res, next) {
-  return pokemonRepository.getByName(req.body.name).then(pokemon => {
+  return Pokemon.getByName(req.body.name).then(pokemon => {
     const controller = new Controller(pokemon, req.body.quantity)
 
     return controller.execute(card)
