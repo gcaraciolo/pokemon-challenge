@@ -1,6 +1,8 @@
-function StockHandler (pokemonId, pokemonRepository) {
+const PokemonRepository = require('./pokemonRepository')
+
+function StockHandler (pokemonId) {
   this.pokemonId = pokemonId
-  this.pokemonRepository = pokemonRepository
+  this.pokemonRepository = new PokemonRepository()
 }
 
 StockHandler.prototype = {

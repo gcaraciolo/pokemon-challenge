@@ -1,5 +1,3 @@
-const pagarmeHelper = require('../utils/pagarmeHelper')
-
 function Invoice (pokemon, quantity) {
   this.pokemon = pokemon
   this.quantity = quantity
@@ -7,7 +5,7 @@ function Invoice (pokemon, quantity) {
 
 Invoice.prototype = {
   amount () {
-    return pagarmeHelper.parseAmount(this.pokemon.price * this.quantity)
+    return this.pokemon.price * this.quantity
   },
 
   metadata () {

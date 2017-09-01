@@ -1,7 +1,7 @@
 const expect = require('../../chaiSettings').expect
 const models = require('../../../src/database/models')
 const cards = require('../support/examples/cards.json')
-const PurchaseService = require('../../../src/pokemon-challenge/checkout')
+const PurchaseService = require('../../../src/pokemon-challenge/controller')
 const PokemonRepository = require('../../../src/pokemon-challenge/pokemonRepository')
 
 const Pokemon = models.pokemons

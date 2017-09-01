@@ -1,35 +1,26 @@
-const { FinancialTransactionError } = require('../errors')
-const Operator = require('./operator')
-const Invoice = require('./invoice')
-const PaymentService = require('./paymentService')
-const pagarmeHelper = require('../utils/pagarmeHelper')
+const PaymentRepository = require('./paymentRepository')
+const Stock = require('./stock')
+const transactionHelper = require('../utils/transactionHelper')
 
-function Checkout (pokemonRepository, paymentRepository) {
-  this.pokemonRepository = pokemonRepository
-  this.paymentRepository = paymentRepository
+function Checkout (invoice) {
+  this.invoice = invoice
+  this.paymentRepository = new PaymentRepository()
+  this.stock = new Stock(invoice.pokemon.id)
 }
 
 Checkout.prototype = {
-  // TODO: refactoring
-  execute ({ name, quantity }, card) {
-    return this.pokemonRepository.getByName(name).then((pokemon) => {
-      const operator = new Operator(pokemon, quantity, this.pokemonRepository, this.paymentRepository)
-      const invoice = new Invoice(pokemon, quantity)
+  dispatch () {
+    return transactionHelper.openReadCommitted((transaction) => {
+      return this.stock.remove(this.invoice.quantity, transaction).then(() => {
+        return this.paymentRepository.create(this.invoice.pokemon.id, this.invoice.quantity, transaction)
+      })
+    })
+  },
 
-      return operator.prepare().then((payment) => {
-        return pagarmeHelper.createClient().then(client => {
-          const paymentService = new PaymentService(client)
-
-          return paymentService.doTransaction(card, invoice).then(transaction => {
-            if (transaction.status !== 'paid') {
-              return operator.abort(payment).then(() =>
-                Promise.reject(new FinancialTransactionError(transaction))
-              )
-            }
-
-            return payment.confirm().then(() => transaction)
-          })
-        })
+  abort (payment) {
+    return transactionHelper.openReadCommitted((transaction) => {
+      return this.paymentRepository.abort(payment.id, transaction).then(() => {
+        return this.stock.add(this.invoice.quantity, transaction)
       })
     })
   }

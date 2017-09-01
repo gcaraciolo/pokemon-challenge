@@ -1,15 +1,11 @@
-const models = require('../../database/models')
-const Checkout = require('../../pokemon-challenge/checkout')
+const Controller = require('../../pokemon-challenge/controller')
 const PokemonRepository = require('../../pokemon-challenge/pokemonRepository')
-const PaymentRepository = require('../../pokemon-challenge/paymentRepository')
 const {
   InventoryError,
   NotFoundError,
   ApiError } = require('../../errors')
 
-const pokemonRepository = new PokemonRepository(models.pokemons)
-const paymentRepository = new PaymentRepository(models.payments)
-const checkout = new Checkout(pokemonRepository, paymentRepository)
+const pokemonRepository = new PokemonRepository()
 
 // mock card
 const card = {
@@ -33,7 +29,11 @@ const PokemonController = {
 }
 
 PokemonController.buy = function (req, res, next) {
-  return checkout.execute(req.body, card).then((transaction) =>
+  return pokemonRepository.getByName(req.body.name).then(pokemon => {
+    const controller = new Controller(pokemon, req.body.quantity)
+
+    return controller.execute(card)
+  }).then((transaction) =>
     res.status(200).json(transaction)
   ).catch(NotFoundError, error =>
     res.status(404).json(new ApiError([error.message]))

@@ -1,5 +1,7 @@
-function PaymentRepository (paymentModel) {
-  this.paymentModel = paymentModel
+const models = require('../database/models')
+
+function PaymentRepository () {
+  this.paymentModel = models.payments
 }
 
 PaymentRepository.prototype = {

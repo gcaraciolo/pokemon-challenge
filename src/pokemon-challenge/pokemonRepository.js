@@ -1,3 +1,4 @@
+const models = require('../database/models')
 const { NotFoundError } = require('../errors')
 
 const checkExists = (data) => {
@@ -7,8 +8,8 @@ const checkExists = (data) => {
   }
 }
 
-function PokemonRepository (pokemonModel) {
-  this.pokemonModel = pokemonModel
+function PokemonRepository () {
+  this.pokemonModel = models.pokemons
 }
 
 PokemonRepository.prototype = {
