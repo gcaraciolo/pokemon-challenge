@@ -1,4 +1,10 @@
-const parameterErrorFactory = require('./parameterErrorFactory')
+const parameterErrorFactory = (error) => {
+  return {
+    message: error.msg,
+    parameter_name: error.param,
+    type: 'invalid_parameter'
+  }
+}
 
 const parameterValidator = (validate) => {
   return (req, res, next) => {
