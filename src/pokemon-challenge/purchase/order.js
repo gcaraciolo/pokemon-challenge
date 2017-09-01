@@ -9,19 +9,19 @@ function Order (invoice) {
 
 Order.prototype = {
   dispatch () {
-    return transactionHelper.openReadCommitted((transaction) => {
-      return this.stock.remove(this.invoice.quantity, transaction).then(() => {
-        return Payment.createWithinTransaction(this.invoice.pokemon.id, this.invoice.quantity, transaction)
-      })
-    })
+    return transactionHelper.openReadCommitted((transaction) =>
+      this.stock.remove(this.invoice.quantity, transaction).then(() =>
+        Payment.createWithinTransaction(this.invoice.pokemon.id, this.invoice.quantity, transaction)
+      )
+    )
   },
 
   abort (payment) {
-    return transactionHelper.openReadCommitted((transaction) => {
-      return Payment.setFailedWithinTransaction(payment.id, transaction).then(() => {
-        return this.stock.add(this.invoice.quantity, transaction)
-      })
-    })
+    return transactionHelper.openReadCommitted((transaction) =>
+      Payment.setFailedWithinTransaction(payment.id, transaction).then(() =>
+        this.stock.add(this.invoice.quantity, transaction)
+      )
+    )
   },
 
   confirm (payment) {

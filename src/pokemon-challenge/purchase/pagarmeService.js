@@ -5,15 +5,15 @@ function PagarmeService () { }
 
 PagarmeService.prototype = {
   doTransaction (card, invoice) {
-    return createClient().then(client => {
-      return client.security.encrypt(card).then(hash => {
-        return client.transactions.create({
+    return createClient().then(client =>
+      client.security.encrypt(card).then(hash =>
+        client.transactions.create({
           amount: parseAmount(invoice.amount()),
           card_hash: hash,
           metadata: invoice.metadata()
         })
-      })
-    })
+      )
+    )
   },
 
   didFail (transaction) {
