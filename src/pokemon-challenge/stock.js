@@ -1,10 +1,10 @@
 const Pokemon = require('../database/models').pokemon
 
-function StockHandler (pokemonId) {
+function Stock (pokemonId) {
   this.pokemonId = pokemonId
 }
 
-StockHandler.prototype = {
+Stock.prototype = {
   add (quantity, transaction) {
     return Pokemon.getByIdWithLock(this.pokemonId, transaction)
       .then((pokemon) => pokemon.increaseStock(quantity)
@@ -17,4 +17,4 @@ StockHandler.prototype = {
   }
 }
 
-module.exports = StockHandler
+module.exports = Stock
