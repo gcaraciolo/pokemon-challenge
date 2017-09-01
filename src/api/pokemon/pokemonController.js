@@ -1,4 +1,6 @@
 const Checkout = require('../../pokemon-challenge/purchase/checkout')
+const Order = require('../../pokemon-challenge/purchase/order')
+const Invoice = require('../../pokemon-challenge/purchase/invoice')
 const { Pokemon } = require('../../database/models')
 const {
   InventoryError,
@@ -28,7 +30,9 @@ const PokemonController = {
 
 PokemonController.buy = function (req, res, next) {
   return Pokemon.getByName(req.body.name).then((pokemon) => {
-    const checkout = new Checkout(pokemon, req.body.quantity)
+    const invoice = new Invoice(pokemon, req.body.quantity)
+    const order = new Order(invoice)
+    const checkout = new Checkout(order)
 
     return checkout.pay(card)
   }).then((transaction) =>
