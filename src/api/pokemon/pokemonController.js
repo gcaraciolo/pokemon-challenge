@@ -1,14 +1,15 @@
 const models = require('../../database/models')
-const PurchaseService = require('../../pokemon-challenge/purchaseService')
+const Checkout = require('../../pokemon-challenge/checkout')
 const PokemonRepository = require('../../pokemon-challenge/pokemonRepository')
+const PaymentRepository = require('../../pokemon-challenge/paymentRepository')
 const {
   InventoryError,
   NotFoundError,
-  ApiError
-} = require('../../errors')
+  ApiError } = require('../../errors')
 
 const pokemonRepository = new PokemonRepository(models.pokemons)
-const purchaseService = new PurchaseService(pokemonRepository)
+const paymentRepository = new PaymentRepository(models.payments)
+const checkout = new Checkout(pokemonRepository, paymentRepository)
 
 // mock card
 const card = {
@@ -20,29 +21,25 @@ const card = {
 
 const PokemonController = {
   list (req, res, next) {
-    return pokemonRepository.list()
-      .then((pokemons) => res.status(200).send(pokemons))
-      .catch(next)
+    return pokemonRepository.list().then((pokemons) =>
+      res.status(200).send(pokemons)
+    ).catch(next)
   },
   create (req, res, next) {
-    return pokemonRepository.create(req.body)
-      .then((pokemon) => res.status(201).json(pokemon))
-      .catch(next)
+    return pokemonRepository.create(req.body).then((pokemon) =>
+      res.status(201).json(pokemon)
+    ).catch(next)
   }
 }
 
 PokemonController.buy = function (req, res, next) {
-  return purchaseService.purchase(req.body, card)
-    .then((transaction) => {
-      return res.status(200).json(transaction)
-    })
-    .catch(NotFoundError, error => {
-      return res.status(404).json(new ApiError([error.message]))
-    })
-    .catch(InventoryError, error => {
-      return res.status(400).json(new ApiError([error.message]))
-    })
-    .catch(next)
+  return checkout.execute(req.body, card).then((transaction) =>
+    res.status(200).json(transaction)
+  ).catch(NotFoundError, error =>
+    res.status(404).json(new ApiError([error.message]))
+  ).catch(InventoryError, error =>
+    res.status(400).json(new ApiError([error.message]))
+  ).catch(next)
 }
 
 module.exports = PokemonController

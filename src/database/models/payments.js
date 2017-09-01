@@ -19,11 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       confirm () {
         this.status = 'paid'
         return this.save()
-      },
-
-      abort () {
-        this.status = 'failed'
-        return this.save()
       }
     }
   })

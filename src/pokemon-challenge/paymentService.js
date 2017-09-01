@@ -1,16 +1,14 @@
-function PaymentService (pagarmeHelper) {
-  this.pagarmeHelper = pagarmeHelper
+function PaymentService (client) {
+  this.client = client
 }
 
 PaymentService.prototype = {
-  charge (card, amount, metadata) {
-    return this.pagarmeHelper.createClient().then(client => {
-      return client.security.encrypt(card).then(hash => {
-        return client.transactions.create({
-          amount: amount,
-          card_hash: hash,
-          metadata: metadata
-        })
+  doTransaction (card, invoice) {
+    return this.client.security.encrypt(card).then(hash => {
+      return this.client.transactions.create({
+        amount: invoice.amount(),
+        card_hash: hash,
+        metadata: invoice.metadata()
       })
     })
   }
